@@ -1,0 +1,6 @@
+10:54:45 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+10:54:45 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+10:54:48 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @fruits in ChooseRoom
+10:54:48 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @fruits in ChooseRoom
+10:54:48 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @fruits in ChooseRoom
+10:54:48 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @fruits in ChooseRoom

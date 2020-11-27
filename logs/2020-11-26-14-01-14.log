@@ -1,0 +1,16 @@
+14:01:14 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+14:01:15 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+14:01:47 [Broker Client] ERROR BrokerClient:152 - Unexpected disconnect from broker
+14:01:47 [EventSystem] ERROR EventSystem:119 - Problem sending to broker
+java.net.SocketException: Broken pipe (Write failed)
+	at java.net.SocketOutputStream.socketWrite0(Native Method)
+	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:111)
+	at java.net.SocketOutputStream.write(SocketOutputStream.java:134)
+	at java.io.DataOutputStream.writeBytes(DataOutputStream.java:276)
+	at furhatos.event.BrokerClient.sendToServer(BrokerClient.java:207)
+	at furhatos.event.BrokerClient.sendTo(BrokerClient.java:169)
+	at furhatos.event.BrokerClient.send(BrokerClient.java:162)
+	at furhatos.event.EventSystem.distributeExternal(EventSystem.java:117)
+	at furhatos.event.EventSystem.distributeNextEvent(EventSystem.java:254)
+	at furhatos.event.EventSystem.runUntilStopped(EventSystem.java:227)
+	at java.lang.Thread.run(Thread.java:748)

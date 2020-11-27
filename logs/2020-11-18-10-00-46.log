@@ -1,0 +1,5 @@
+10:00:46 [Skill] INFO  Skill:139 - Connecting to Furhat server on 192.168.10.175:1932
+10:00:47 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+10:00:51 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.fruitseller.nlu.Fruit, : No .enu file for Fruit in language en-US found
+10:00:51 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.fruitseller.nlu.Fruit, : No .enu file for Fruit in language en-US found
+10:02:22 [EventSystem] INFO  FruitsellerSkill:184 - Terminating skill
