@@ -1,54 +1,41 @@
 package furhatos.app.fruitseller.nlu
 
-import furhatos.nlu.ComplexEnumEntity
-import furhatos.nlu.EnumEntity
-import furhatos.nlu.Intent
-import furhatos.nlu.ListEntity
+import furhatos.nlu.*
 import furhatos.util.Language
-import furhatos.nlu.common.Number
-
-
-class Room : EnumEntity(stemming = true, speechRecPhrases = true) {
-    override fun getEnum(lang: Language): List<String> {
-        return listOf("Kitchen", "Ballroom", "Library", "Cellar")
-    }
-}
-
-
-class ChooseRoom(var rooms : RoomList? = null) : Intent() {
-    override fun getExamples(lang: Language): List<String> {
-        //return listOf("@fruits", "I want @fruits", "I would like @fruits", "I want to buy @fruits")
-        return listOf("@rooms", "I wanna go to @rooms", "I would like to go to @rooms", "I wanna enter @rooms")
-    }
-}
-
 
 class RequestOptions: Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("What rooms do you have?",
-                "Which rooms are available?",
-                "What are the alternatives?",
-                "What do you have?",
-                "What are the rooms?",
-                "Which are the rooms?")
+        return listOf("What options do you have?",
+                "Who do you have?",
+                "Whom can I talk to?",
+                "Who can I visit?",
+                "What persons do you have?",
+                "What names do you have?",
+                "What are my options?")
     }
 }
 
-class RoomList : ListEntity<QuantifiedRooms>()
+class NameList : ListEntity<GetName>()
 
-class QuantifiedRooms(
-        val count : Number? = Number(1),
-        //val fruit : Fruit? = null) : ComplexEnumEntity() {
-        val room : Room? = null) : ComplexEnumEntity() {
-
-    override fun getEnum(lang: Language): List<String> {
-        //return listOf("@count @fruit", "@fruit")
-        return listOf("@rooms, @count @rooms")
+class GetName(
+        var name : Name? = null) : ComplexEnumEntity() {
+        override fun getEnum(lang: Language): List<String> {
+        return listOf("@name")
     }
-
     override fun toText(): String {
-        //return generate("$count $fruit")
-        return generate("$count $room")
+        return generate(name?.value)
     }
 }
 
+class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("Albert Adams", "Harold Hoffman", "Francis Franklin", "Carol Clark")
+    }
+}
+
+// BuyFruit
+class VisitName(var names : NameList? = null) : Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("@names", "Let me speak to @names", "I would like to speak to @names", "I wanna see @names", "I choose @names")
+    }
+}

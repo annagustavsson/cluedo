@@ -1,12 +1,18 @@
 package furhatos.app.fruitseller.flow
 
+import furhatos.flow.kotlin.furhat
+import furhatos.flow.kotlin.onUserLeave
+import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.*
-import furhatos.util.*
+import furhatos.util.Language
 
-val Idle: State = state {
+val Idle : State = state {
 
     init {
-        furhat.setVoice(Language.ENGLISH_US, Gender.MALE)
+        // Face
+        furhat.setTexture("male")
+        // Voice
+        furhat.setVoice(Language.ENGLISH_US, "Russell")
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(Start)
@@ -14,7 +20,9 @@ val Idle: State = state {
     }
 
     onEntry {
-        furhat.attendNobody()
+        if (users.count > 0) {
+            furhat.attendNobody()
+        }
     }
 
     onUserEnter {
@@ -23,7 +31,7 @@ val Idle: State = state {
     }
 }
 
-val Interaction: State = state {
+val Interaction : State = state {
 
     onUserLeave(instant = true) {
         if (users.count > 0) {
@@ -41,5 +49,4 @@ val Interaction: State = state {
     onUserEnter(instant = true) {
         furhat.glance(it)
     }
-
 }

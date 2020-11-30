@@ -1,13 +1,11 @@
-package furhatos.app.fruitseller.flow
+package furhatos.app.fruitseller
 
+import furhatos.app.fruitseller.nlu.NameList
 import furhatos.records.User
-import furhatos.app.fruitseller.nlu.RoomList
 
-
-class RoomData (
-        var rooms : RoomList = RoomList()
+class NameData (
+        var names : NameList = NameList()
 )
 
-val User.order : RoomData
-    get() = data.getOrPut(RoomData::class.qualifiedName, RoomData())
-
+val User.order : NameData
+    get() = data.getOrPut(NameData::class.qualifiedName, NameData())
