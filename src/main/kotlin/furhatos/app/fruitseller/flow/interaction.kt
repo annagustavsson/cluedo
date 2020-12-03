@@ -7,11 +7,9 @@ import furhatos.nlu.common.*
 
 val Start = state(Interaction) {
     onEntry {
-        random(
-                {   furhat.say("Hi there") },
-                {   furhat.say("Oh, hello there") }
-        )
-
+        furhat.say("Thank god your here, Username! We have had a terrible murder, Albert Adams was found dead in his library last night." +
+                        "The suspects are the construction worker Carol, the cleaner Francis and the chemistry professor Harold. They are all here ready to be questioned.")
+                        // TODO: change username to actual players name
         goto(TakingOrder)
     }
 }
@@ -57,6 +55,8 @@ val TakingOrder = state(Options) {
 fun OrderReceived(names: NameList) : State = state(Options) {
     onEntry {
         furhat.say("Alright, I'll go get ${names.text}!")
+        // TODO: Add call to function that actually gets the person
+
         names.list.forEach {
             users.current.order.names.list.add(it)
         }
