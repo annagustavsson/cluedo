@@ -29,7 +29,7 @@ class GetName(
 
 class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Albert Adams", "Harold Hoffman", "Francis Franklin", "Carol Clark")
+        return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
     }
 }
 
