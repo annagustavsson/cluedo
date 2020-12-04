@@ -52,7 +52,9 @@ val TakingOrder = state(Options) {
     onEntry {
         if(users.current.order.names.list.isEmpty()){
             furhat.ask("Who do you want to question first?")
-        }else {
+        }else if(users.current.order.names.list.size == 3) {
+            goto(GamePlay().guessMurder())
+        } else{
             furhat.ask("Who do you want to question next?")
         }
     }
@@ -65,7 +67,6 @@ val TakingOrder = state(Options) {
         goto(Idle)
     }
 }
-
 
 fun OrderReceived(names: NameList) : State = state(Options) {
     onEntry {
@@ -102,10 +103,10 @@ fun OrderReceived(names: NameList) : State = state(Options) {
                     "childhood friend",
                     true,
                     "Ted",
-                    "Brian"
+                    "Emma"
             ).initialConversation)
         }
-        // TODO: Add different voices to the different suspects.
+        // TODO: Fix voices to the different suspects (Currently they all have language: English_GB).
     }
 
     onReentry {
@@ -148,3 +149,20 @@ class Suspects constructor(
         }
     }
 }
+
+class GamePlay constructor(
+) {
+    fun guessMurder() : State = state(Options) {
+        onEntry {
+            furhat.ask("You have interviewed all the suspects. Who do you think is the murder?")
+        }
+        onResponse{
+            if (it.text == "Carol") {
+                furhat.say("That is correct! You win.")
+            }else{
+                furhat.say("That is incorrect! Game over.")
+            }
+        }
+
+        }
+    }
