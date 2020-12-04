@@ -18,13 +18,13 @@ val Start = state(Interaction){
         // The name of the person playing
         furhat.gesture(Gestures.BigSmile, async = true)
         // async = true means that the gesture does not block the following speach
-
         furhat.say("Ah! Detective  $username! There has been a murder!")
         furhat.gesture(Gestures.ExpressFear, async = true)
-        furhat.say("And we need your help to solve it. " +
+        furhat.say("We have the suspects here.")
+        /*furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
-                "They are all here ready to be questioned by you $username. ")
+                "They are all here ready to be questioned by you $username. ")*/
         goto(TakingOrder)
     }
 }
@@ -58,11 +58,10 @@ val TakingOrder = state(Options) {
     }
 
     onResponse<No> {
+        furhat.gesture(Gestures.ExpressAnger, async = true) // Express anger but continue execution immediately
         furhat.say("Okay, that's a shame. Guess we will never find the murder.")
-        furhat.gesture(Gestures.ExpressAnger, async = false) // Express anger but continue execution immediately
+        furhat.gesture(Gestures.BigSmile, async = true) // Do a smile
         furhat.say("Have a splendid day though!")
-        furhat.gesture(Gestures.BigSmile) // Do a smile
-
         goto(Idle)
     }
 }
@@ -75,13 +74,38 @@ fun OrderReceived(names: NameList) : State = state(Options) {
             users.current.order.names.list.add(it)
         }
         if(names.text=="Carol") {
-            goto(TalkToCarol)
+            goto(Suspects(
+                    "Carol",
+                    "Clark",
+                    "Construction worker",
+                    "wife",
+                    false,
+                    "Ursula",
+                    "Amy"
+                ).initialConversation)
+
         }else if(names.text=="Harold"){
-            goto(TalkToHarold)
+            goto(Suspects(
+                    "Harold",
+                    "Hoffman",
+                    "Chemistry professor",
+                    "colleague",
+                    false,
+                    "Geremy",
+                    "Brian"
+            ).initialConversation)
         }else{
-            goto(TalkToFrancis)
+            goto(Suspects(
+                    "Francis",
+                    "Franclin",
+                    "Cleaner",
+                    "childhood friend",
+                    true,
+                    "Ted",
+                    "Brian"
+            ).initialConversation)
         }
-        //furhat.ask("Anything else?")
+        // TODO: Add different voices to the different suspects.
     }
 
     onReentry {
@@ -93,40 +117,34 @@ fun OrderReceived(names: NameList) : State = state(Options) {
     }
 }
 
-val TalkToCarol = state(Options) {
-    onEntry {
-        furhat.setTexture("Ursula")
-        furhat.setVoice(Language.ENGLISH_GB, "Amy")
-        furhat.say("Hello this is Carol, I do not have time for this. Bye.")
-        furhat.setTexture("male")
-        furhat.setVoice(Language.ENGLISH_GB, "Brian")
-        furhat.say("Yeah she's pretty rude.")
-        goto(TakingOrder)
-    }
-}
+class Suspects constructor(
+        firstName: String,
+        lastName: String,
+        job: String,
+        relationshipAlbert: String,
+        guilty: Boolean,
+        texture: String,
+        voice: String
+) {
 
-val TalkToHarold = state(Options) {
-    onEntry {
-        furhat.setTexture("Geremy")
-        furhat.setVoice(Language.ENGLISH_GB, "Geraint")
-        furhat.say("Hello this is Harold, I'm innocent Bye.")
-        furhat.setTexture("male")
-        furhat.setVoice(Language.ENGLISH_GB, "Brian")
-        furhat.say("Yeah he's also pretty rude.")
-        goto(TakingOrder)
-    }
-}
-
-val TalkToFrancis = state(Options) {
-    onEntry {
-        furhat.setTexture("Ted")
-        furhat.setVoice(Language.ENGLISH_AU, "Russel")
-        furhat.say("Hey this is Francis, I'm obviously innocent")
-        furhat.gesture(Gestures.Wink)
-        furhat.say("Bye!")
-        furhat.setTexture("male")
-        furhat.setVoice(Language.ENGLISH_GB, "Brian")
-        furhat.say("Yeah he's also pretty rude.")
-        goto(TakingOrder)
+    val initialConversation = state(Options) {
+        onEntry {
+            furhat.setTexture(texture)
+            furhat.setVoice(Language.ENGLISH_GB, voice)
+            furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
+            if (guilty) {
+                furhat.say("I'm guilty, oooops.")
+            } else {
+                furhat.say("I'm innocent. I was Albert's $relationshipAlbert for Gods sake! Good bye.")
+            }
+            furhat.setTexture("male")
+            furhat.setVoice(Language.ENGLISH_GB, "Brian")
+            if (firstName=="Carol") {
+                furhat.say("Yeah she's pretty rude.")
+            }else{
+                furhat.say("Yeah he's pretty rude.")
+            }
+            goto(TakingOrder)
+        }
     }
 }
