@@ -6,6 +6,8 @@ import furhatos.util.Language
 class RequestOptions: Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("What options do you have?",
+                "Who were the suspects?",
+                "What were the options?",
                 "Who do you have?",
                 "Whom can I talk to?",
                 "Who can I visit?",
@@ -29,7 +31,9 @@ class GetName(
 
 class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
+        //return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
+        return listOf("Harold", "Francis", "Carol")
+
     }
 }
 

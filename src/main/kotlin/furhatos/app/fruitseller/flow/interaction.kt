@@ -4,13 +4,27 @@ import furhatos.app.fruitseller.nlu.*
 import furhatos.app.fruitseller.order
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
+import furhatos.nlu.Intent
 import furhatos.nlu.common.*
 import furhatos.util.Language
 
 val Start = state(Interaction){
     onEntry {
-        furhat.say("Thank god your here! There has been a murder, we have all the suspects here.")
-        // TODO: change username to actual players name
+        furhat.ask("Thank god your here detective! May I ask your name?")
+    }
+
+    onResponse{
+        val username = it.text
+        // The name of the person playing
+        furhat.gesture(Gestures.BigSmile, async = true)
+        // async = true means that the gesture does not block the following speach
+
+        furhat.say("Ah! Detective  $username! There has been a murder!")
+        furhat.gesture(Gestures.ExpressFear, async = true)
+        furhat.say("And we need your help to solve it. " +
+                "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
+                "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
+                "They are all here ready to be questioned by you $username. ")
         goto(TakingOrder)
     }
 }
