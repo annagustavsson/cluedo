@@ -9,6 +9,7 @@ import furhatos.nlu.common.*
 import furhatos.util.Language
 
 val Start = state(Interaction){
+
     onEntry {
         furhat.ask("Thank god your here detective! May I ask your name?")
     }
@@ -16,20 +17,22 @@ val Start = state(Interaction){
     onResponse{
         val username = it.text
         // The name of the person playing
+        // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
         furhat.gesture(Gestures.BigSmile, async = true)
-        // async = true means that the gesture does not block the following speach
+        // async = true means that the gesture does not block the following speech
         furhat.say("Ah! Detective  $username! There has been a murder!")
         furhat.gesture(Gestures.ExpressFear, async = true)
-        furhat.say("We have the suspects here.")
-        /*furhat.say("And we need your help to solve it. " +
+        furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
-                "They are all here ready to be questioned by you $username. ")*/
+                "They are all here ready to be questioned by you $username. ")
         goto(TakingOrder)
     }
 }
 
 val Options = state(Interaction) {
+    // If the user requests to hear the options again.
+
     onResponse<VisitName> {
         val names = it.intent.names
         if (names != null) {
@@ -74,6 +77,7 @@ fun OrderReceived(names: NameList) : State = state(Options) {
         names.list.forEach {
             users.current.order.names.list.add(it)
         }
+        // TODO: The creation of the suspects objects should probably be created somewhere else. And only called on here:
         if(names.text=="Carol") {
             goto(Suspects(
                     "Carol",
@@ -106,7 +110,8 @@ fun OrderReceived(names: NameList) : State = state(Options) {
                     "Emma"
             ).initialConversation)
         }
-        // TODO: Fix voices to the different suspects (Currently they all have language: English_GB).
+        // TODO: Fix voices to the different suspects (Currently they all have language: English_GB,
+        //  also Francis is a girl and Harold has the same voice as Furhat.)
     }
 
     onReentry {
@@ -117,52 +122,3 @@ fun OrderReceived(names: NameList) : State = state(Options) {
         furhat.say("You have so far spoken to ${users.current.order.names}. Have a great day!")
     }
 }
-
-class Suspects constructor(
-        firstName: String,
-        lastName: String,
-        job: String,
-        relationshipAlbert: String,
-        guilty: Boolean,
-        texture: String,
-        voice: String
-) {
-
-    val initialConversation = state(Options) {
-        onEntry {
-            furhat.setTexture(texture)
-            furhat.setVoice(Language.ENGLISH_GB, voice)
-            furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
-            if (guilty) {
-                furhat.say("I'm guilty, oooops.")
-            } else {
-                furhat.say("I'm innocent. I was Albert's $relationshipAlbert for Gods sake! Good bye.")
-            }
-            furhat.setTexture("male")
-            furhat.setVoice(Language.ENGLISH_GB, "Brian")
-            if (firstName=="Carol") {
-                furhat.say("Yeah she's pretty rude.")
-            }else{
-                furhat.say("Yeah he's pretty rude.")
-            }
-            goto(TakingOrder)
-        }
-    }
-}
-
-class GamePlay constructor(
-) {
-    fun guessMurder() : State = state(Options) {
-        onEntry {
-            furhat.ask("You have interviewed all the suspects. Who do you think is the murder?")
-        }
-        onResponse{
-            if (it.text == "Carol") {
-                furhat.say("That is correct! You win.")
-            }else{
-                furhat.say("That is incorrect! Game over.")
-            }
-        }
-
-        }
-    }
