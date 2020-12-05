@@ -12,7 +12,7 @@ val Idle : State = state {
         // Face
         furhat.setTexture("male")
         // Voice
-        furhat.setVoice(Language.ENGLISH_US, "Russell")
+        furhat.setVoice(Language.ENGLISH_GB, "Brian")
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(Start)
