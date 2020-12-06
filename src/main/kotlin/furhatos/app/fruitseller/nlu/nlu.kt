@@ -7,6 +7,8 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 import furhatos.nlu.*
+import furhatos.nlu.common.No
+import furhatos.nlu.common.Yes
 import furhatos.util.Language
 
 class RequestOptions: Intent() {
@@ -66,21 +68,28 @@ class GamePlay : Intent() {
 }
 
 // This class contains all the suspects, with methods containing the different interview questions
-class Suspects constructor(
+class Suspects(
         firstName: String,
         lastName: String,
         job: String,
         relationshipAlbert: String,
         guilty: Boolean,
         texture: String,
-        voice: String) {
+        voice: String,
+        evening: String,
+        timeOfMurder: String,
+        beforeAndAfter: String,
+        responsible: String,
+        suspicious: String
+) {
 
     val initialConversation = state(Options) {
         onEntry {
             furhat.setTexture(texture)
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
-            if (guilty) {
+            furhat.ask("Did you have some questions for me?")
+           /* if (guilty) {
                 furhat.say("I'm guilty, oooops.")
             } else {
                 furhat.say("I'm innocent. I was Albert's $relationshipAlbert for Gods sake! Good bye.")
@@ -92,8 +101,99 @@ class Suspects constructor(
             }else{
                 furhat.say("Yeah he's pretty rude.")
             }
+            goto(TakingOrder)*/
+        }
+
+        onResponse<Yes> {
+            goto(interviewConversation)
+        }
+    }
+
+    val interviewConversation = state(Options) {
+        onEntry {
+            furhat.ask("So what questions did you have for me?")
+        }
+
+        onResponse<QuestionRelation> {
+            furhat.say("For Gods sake. I am Albert's, oh well, I was Albert's $relationshipAlbert for a long time.")
+            furhat.ask("Anything else you wonder?")
+        }
+
+        onResponse<QuestionEvening> {
+            furhat.say(evening)
+            furhat.ask("Anything else you wonder?")
+        }
+
+        onResponse<QuestionTimeOfMurder> {
+            furhat.say(timeOfMurder)
+            furhat.ask("Anything else you wonder?")
+        }
+
+        onResponse<QuestionBeforeAndAfter> {
+            furhat.say(beforeAndAfter)
+            furhat.ask("Anything else you wonder?")
+        }
+
+        onResponse<QuestionResponsible> {
+            furhat.say(responsible)
+            random(
+                    { furhat.ask("Do you have even more questions?")},
+                    { furhat.ask("Anything else you wonder?")}
+            )
+        }
+
+        onResponse<QuestionSuspicious> {
+            furhat.say(suspicious)
+            furhat.ask("Anything else you wonder?")
+        }
+
+        onResponse<No> {
+            furhat.say("Very well then")
+            furhat.setTexture("male")
+            furhat.setVoice(Language.ENGLISH_GB, "Brian")
+            if (firstName=="Carol") {
+                furhat.say("Yeah she's pretty rude.")
+            }else{
+                furhat.say("Yeah he's pretty rude.")
+            }
             goto(TakingOrder)
         }
+    }
+}
+
+class QuestionRelation: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("How did you know Albert", "How did you know Albert Adams", "What was your relation with Albert")
+    }
+}
+
+class QuestionEvening: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("Tell me about your evening", "Tell me about your evening friday the 13th, leading up to the murder")
+    }
+}
+
+class QuestionTimeOfMurder: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("Where were you during the time of the murder", "Where were you")
+    }
+}
+
+class QuestionBeforeAndAfter: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("What did you do before", "What did you do before and after", "What did you do before and after the murder?")
+    }
+}
+
+class QuestionResponsible: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("Who do you think did it", "Who is responsible", "Who do you believe is responsible for the murder")
+    }
+}
+
+class QuestionSuspicious: Intent() {
+    override fun getExamples(lang: Language): List<String>{
+        return listOf("Did you notice anything different that night?",  "Anyone who looked or acted particularly suspicious?", "Do you have any suspicions?", "Did you notice anything weird")
     }
 }
 
