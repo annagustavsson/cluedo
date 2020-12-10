@@ -9,7 +9,7 @@ import furhatos.nlu.common.*
 val Start = state(Interaction){
 
     onEntry {
-        furhat.ask("Thank god your here detective! May I ask your name?")
+        furhat.ask("Thank god you're here detective! May I ask your name?")
     }
 
     onResponse{

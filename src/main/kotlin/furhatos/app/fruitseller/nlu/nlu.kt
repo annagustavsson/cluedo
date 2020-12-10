@@ -17,7 +17,7 @@ class RequestOptions: Intent() {
                 "Who were the suspects?",
                 "What were the options?",
                 "Who do you have?",
-                "Whom can I talk to?",
+                "Who can I talk to?",
                 "Who can I visit?",
                 "What persons do you have?",
                 "What names do you have?",
@@ -39,7 +39,7 @@ class GetName(
 
 class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        //return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
+        return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
         return listOf("Harold", "Francis", "Carol")
     }
 }
@@ -162,38 +162,39 @@ class Suspects(
 }
 
 class QuestionRelation: Intent() {
+
     override fun getExamples(lang: Language): List<String>{
-        return listOf("How did you know Albert", "How did you know Albert Adams", "What was your relation with Albert")
+        return listOf("How did you know +Albert", "How did you know +Albert Adams")
     }
 }
 
 class QuestionEvening: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("Tell me about your evening", "Tell me about your evening friday the 13th, leading up to the murder")
+        return listOf("Tell me about your +evening", "Tell me about your +evening friday the 13th, leading up to the murder")
     }
 }
 
 class QuestionTimeOfMurder: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("Where were you during the time of the murder", "Where were you")
+        return listOf("Where were +you during the +time of the +murder", "Where were +you at the +time of the +murder")
     }
 }
 
 class QuestionBeforeAndAfter: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("What did you do before", "What did you do before and after", "What did you do before and after the murder?")
+        return listOf("What did you do +before", "What did you do +before and after", "What did you do +before and after the murder?")
     }
 }
 
 class QuestionResponsible: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("Who do you think did it", "Who is responsible", "Who do you believe is responsible for the murder")
+        return listOf("Who is +responsible", "Who do you believe is +responsible for the murder")
     }
 }
 
 class QuestionSuspicious: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("Did you notice anything different that night?",  "Anyone who looked or acted particularly suspicious?", "Do you have any suspicions?", "Did you notice anything weird")
+        return listOf("Did you notice anything +suspicious that night?",  "Anyone who looked or acted particularly +suspicious?")
     }
 }
 
