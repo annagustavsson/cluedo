@@ -6,7 +6,10 @@ import furhatos.flow.kotlin.*
 
 class FruitsellerSkill : Skill() {
     override fun start() {
-        Flow().run(Idle)
+        //--- Cluedo game ---
+        // Flow().run(Idle)
+        //--- User test ---
+        Flow().run(IdleTest)
     }
 }
 
