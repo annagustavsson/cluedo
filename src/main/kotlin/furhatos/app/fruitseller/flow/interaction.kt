@@ -52,25 +52,30 @@ var alreadyExecuted : Boolean = false
 val TakingOrder = state(Options) {
 
     onEntry {
-        when {
 
+        // om två OCH
+        if (users.current.order.names.list.size == 2) {
+                call(GamePlay().autopsyResults) // note: 'call' instead of 'goto'
+        }
+
+        when {
             //add boolean property to user that lets us toogle if they have seen autopsy or not
             users.current.order.names.list.isEmpty() -> {
                 furhat.ask("Who do you want to question first?")
             }
             users.current.order.names.list.size == 1 -> {
+            //users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
                 furhat.ask("Who do you want to question next?")
             }
-            // om två OCH
-            users.current.order.names.list.size == 2 -> {
-                if(!alreadyExecuted) {
-                    goto(GamePlay().autopsyResults)
-                    alreadyExecuted = true
-                }
+
+             users.current.order.names.list.size == 2 -> {
+                furhat.ask("Who do you want to question next?")
             }
+
             users.current.order.names.list.size == 3 -> {
                 goto(GamePlay().guessMurder())
             }
+
         }
     }
 

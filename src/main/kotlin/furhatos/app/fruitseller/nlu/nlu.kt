@@ -56,6 +56,7 @@ class VisitName(var names : NameList? = null) : Intent() {
 class GamePlay : Intent() {
 
     val autopsyResults = state() {
+
         onEntry {
                 furhat.say("Detective! We just got the result from the autopsy. " +
                         "As suspected, they suggest that Albert might have been poisoned by inhalation." +
@@ -63,8 +64,9 @@ class GamePlay : Intent() {
                         " In this amount and high concentration, it’s both toxic and deadly." +
                         " He must've died within a matter of minutes." +
                         " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
-            goto(TakingOrder)
-                 } 
+                terminate() //calling this state will resume the execution in Takingorder
+                 }
+
     }
 
     fun guessMurder() : State = state(Options) {
