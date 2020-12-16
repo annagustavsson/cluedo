@@ -57,8 +57,8 @@ val InteractionTest : State = state {
 
 val StartTest = state(InteractionTest){
     onEntry {
-        //furhat.ask("Are you ready for the user test?")
-        goto(C)
+        furhat.ask("Are you ready for the user test?")
+        //goto(C)
     }
 
     onResponse<Yes> {
