@@ -5,6 +5,8 @@ import furhatos.records.User
 
 class NameData (
         var names : NameList = NameList()
+        //, var alreadyExecuted : Boolean = false
+
 )
 
 val User.order : NameData

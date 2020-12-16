@@ -1,0 +1,5 @@
+/Users/kristinaandersson/.furhat/launcher/SDK/skills/cluedo/src/main/kotlin/furhatos/app/fruitseller/nlu/nlu.kt
+/Users/kristinaandersson/.furhat/launcher/SDK/skills/cluedo/src/main/kotlin/furhatos/app/fruitseller/main.kt
+/Users/kristinaandersson/.furhat/launcher/SDK/skills/cluedo/src/main/kotlin/furhatos/app/fruitseller/users.kt
+/Users/kristinaandersson/.furhat/launcher/SDK/skills/cluedo/src/main/kotlin/furhatos/app/fruitseller/flow/general.kt
+/Users/kristinaandersson/.furhat/launcher/SDK/skills/cluedo/src/main/kotlin/furhatos/app/fruitseller/flow/interaction.kt
