@@ -57,8 +57,8 @@ val InteractionTest : State = state {
 
 val StartTest = state(InteractionTest){
     onEntry {
-        furhat.ask("Are you ready for the user test?")
-        //goto(C)
+        //furhat.ask("Are you ready for the user test?")
+        goto(C)
     }
 
     onResponse<Yes> {
@@ -203,18 +203,39 @@ val B2 = state(InteractionTest) {
 val C = state(InteractionTest) {
     onEntry {
         furhat.say("What will you do later today?")
-        furhat.gesture(Gestures.Nod)
         furhat.listen()
     }
 
-    onResponse<No> {
+   /* onResponse<No> {
         furhat.say("Okay then. You can fill out the form now.")
         goto(IdleTest)
+    }*/
+
+    onResponse {
+        furhat.say("That sounds nice. What else will you do?")
+        goto(CC)
+    }
+}
+
+val CC = state(InteractionTest) {
+    onEntry {
+        furhat.listen()
     }
 
     onResponse {
-        furhat.say("That sounds nice.")
-        furhat.ask("Anything else?")
+        furhat.say("That sounds interesting too. What else will you do?")
+        goto(CCC)
+    }
+}
+
+val CCC = state(InteractionTest) {
+    onEntry {
+        furhat.listen()
+    }
+
+    onResponse {
+        furhat.say("Cool. Thank you for a lovely conversation. You can go ahead and fill out the form now.")
+        goto(IdleTest)
     }
 }
 
