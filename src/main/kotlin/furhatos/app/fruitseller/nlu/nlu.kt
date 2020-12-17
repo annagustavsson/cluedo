@@ -97,7 +97,10 @@ class Suspects(
         beforeAndAfter: String,
         responsible: String,
         suspicious: String
+
 ) {
+    var relationTracker: Int = 0 ; var eveningTracker: Int = 0 ; var timeOfMurderTracker: Int = 0 ; var beforeAfterTracker: Int = 0
+
 
     val initialConversation = state(Options) {
         onEntry {
@@ -131,22 +134,38 @@ class Suspects(
         }
 
         onResponse<QuestionRelation> {
+            if (relationTracker > 0) {
+                furhat.say("You already asked that question. But fine, I can answer again")
+            }
             furhat.say("I was Albert's $relationshipAlbert for a long time.")
+            relationTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
         onResponse<QuestionEvening> {
+            if (eveningTracker > 0) {
+                furhat.say("You already asked that question. But fine, I can answer again")
+            }
             furhat.say(evening)
+            eveningTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
         onResponse<QuestionTimeOfMurder> {
+            if (timeOfMurderTracker > 0) {
+                furhat.say("You already asked that question. But fine, I can answer again")
+            }
             furhat.say(timeOfMurder)
+            timeOfMurderTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
         onResponse<QuestionBeforeAndAfter> {
+            if (beforeAfterTracker > 0) {
+                furhat.say("You already asked that question. But fine, I can answer again")
+            }
             furhat.say(beforeAndAfter)
+            beforeAfterTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
