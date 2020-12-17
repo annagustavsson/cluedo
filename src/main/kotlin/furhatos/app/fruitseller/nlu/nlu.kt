@@ -27,6 +27,7 @@ class RequestOptions: Intent() {
 
 class NameList : ListEntity<GetName>()
 
+
 class GetName(
         var name : Name? = null) : ComplexEnumEntity() {
         override fun getEnum(lang: Language): List<String> {
@@ -39,7 +40,7 @@ class GetName(
 
 class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
+        //return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
         return listOf("Harold", "Francis", "Carol")
     }
 }
@@ -53,6 +54,21 @@ class VisitName(var names : NameList? = null) : Intent() {
 
 // This class contains methods for the actual gameplay.
 class GamePlay : Intent() {
+
+    val autopsyResults = state() {
+
+        onEntry {
+                furhat.say("Detective! We just got the result from the autopsy. " +
+                        "As suspected, they suggest that Albert might have been poisoned by inhalation." +
+                        " He has traces of Ammonia in his lungs and around his mouth and nose." +
+                        " In this amount and high concentration, it’s both toxic and deadly." +
+                        " He must've died within a matter of minutes." +
+                        " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
+                terminate() //calling this state will resume the execution in Takingorder
+                 }
+
+    }
+
     fun guessMurder() : State = state(Options) {
         onEntry {
             furhat.ask("You have interviewed all the suspects. Who do you think is the murder?")
@@ -115,7 +131,7 @@ class Suspects(
         }
 
         onResponse<QuestionRelation> {
-            furhat.say("For Gods sake. I am Albert's, oh well, I was Albert's $relationshipAlbert for a long time.")
+            furhat.say("I was Albert's $relationshipAlbert for a long time.")
             furhat.ask("Anything else you wonder?")
         }
 
