@@ -99,7 +99,7 @@ class Suspects(
         suspicious: String
 
 ) {
-    var relationTracker: Int = 0 ; var eveningTracker: Int = 0 ; var timeOfMurderTracker: Int = 0 ; var beforeAfterTracker: Int = 0
+    private var relationTracker: Int = 0 ; private var eveningTracker: Int = 0 ; private var timeOfMurderTracker: Int = 0 ; private var beforeAfterTracker: Int = 0
 
 
     val initialConversation = state(Options) {
@@ -107,7 +107,8 @@ class Suspects(
             furhat.setTexture(texture)
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
-            furhat.ask("Did you have some questions for me?")
+            //furhat.ask("Did you have some questions for me?")
+            goto(interviewConversation)
            /* if (guilty) {
                 furhat.say("I'm guilty, oooops.")
             } else {
@@ -123,9 +124,9 @@ class Suspects(
             goto(TakingOrder)*/
         }
 
-        onResponse<Yes> {
-            goto(interviewConversation)
-        }
+        //onResponse<Yes> {
+        //    goto(interviewConversation)
+        //}
     }
 
     val interviewConversation = state(Options) {
