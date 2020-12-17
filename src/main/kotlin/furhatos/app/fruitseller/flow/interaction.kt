@@ -47,8 +47,6 @@ val Options = state(Interaction) {
     }
 }
 
-var alreadyExecuted : Boolean = false
-
 val TakingOrder = state(Options) {
 
     onEntry {
@@ -59,10 +57,10 @@ val TakingOrder = state(Options) {
         }
 
         when {
-            //add boolean property to user that lets us toogle if they have seen autopsy or not
             users.current.order.names.list.isEmpty() -> {
                 furhat.ask("Who do you want to question first?")
             }
+
             users.current.order.names.list.size == 1 -> {
             //users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
                 furhat.ask("Who do you want to question next?")
