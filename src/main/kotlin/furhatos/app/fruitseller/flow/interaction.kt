@@ -24,6 +24,7 @@ val Start = state(Interaction){
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
+        furhat.say("Keep in mind that you can guess on the murderer only once.")
         goto(TakingOrder)
     }
 }
