@@ -4,6 +4,7 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onUserLeave
 import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.*
+import furhatos.flow.kotlin.Parameters.noSpeechTimeout
 import furhatos.gestures.BasicParams
 import furhatos.gestures.Gestures
 import furhatos.gestures.defineGesture
@@ -59,9 +60,7 @@ val InteractionTest : State = state {
 
 val StartTest = state(InteractionTest){
     onEntry {
-        //furhat.ask("Are you ready for the user test?") // Kommentera tillbaka
-        //goto(C)
-        goto(A6) // ta bort
+        furhat.ask("Are you ready for the user test?")
     }
 
     onResponse<Yes> {
@@ -80,9 +79,9 @@ val ChooseTest = state(InteractionTest){
     }
 
     onResponse<TestA> {
-        furhat.say("You have chosen test A. I will talk for a bit, then you have some time to fill in in form. " +
-                "The test starts right now.")
-        goto(A1)
+        furhat.say("You have chosen test A. In this test, you will listen to me say a few sentences." +
+                " After each interaction, you will have time to answer a few questions in a form. The test starts right now.")
+        goto(Aa)
     }
 
     onResponse<TestB> {
@@ -116,9 +115,9 @@ class TestC: Intent() {
     }
 }
 
-// Test A1-A5 Furhat appear less trustworthy
-
-val A1 = state(InteractionTest){
+// Test Aa-Ae Furhat appear less trustworthy
+val Aa = state(InteractionTest){
+    // 1a. More facial gestures, a lot of gazing and glancing
 
     val quickLeftGlance = defineGesture {
         frame(0.22, 0.44) {
@@ -130,7 +129,6 @@ val A1 = state(InteractionTest){
         frame(0.95, 1.05) {
             BasicParams.LOOK_LEFT to 0.0
         }
-
     }
     val quickRightGlance = defineGesture {
         frame(0.22, 0.44) {
@@ -141,9 +139,10 @@ val A1 = state(InteractionTest){
         }
     }
 
-    // 1a. More facial gestures, a lot of gazing and glancing
     onEntry {
-        furhat.say("A1")
+        furhat.say("interaction Aa")
+        delay(2000)
+
         furhat.gesture(Gestures.Surprise(strength = 4.00, duration=6.00), async = true)
         furhat.say("Hey I am so glad to see you detective!")
         furhat.gesture(Gestures.Blink(duration=0.5), async=true)
@@ -161,19 +160,29 @@ val A1 = state(InteractionTest){
         furhat.gesture(Gestures.GazeAway, async = true)
         furhat.say(" I was a close friend of Albert, I would never hurt him.")
         furhat.gesture(quickRightGlance)
-        furhat.say(" Trust me.")
         furhat.gesture(Gestures.Blink(duration=0.5), async=true)
-        furhat.say(" I'm innocent. ")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A2)
+        furhat.say(" Trust me.")
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Aa, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ab)
+    }
+
+    onResponse {// catches answers that are not "Yes"
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Aa, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Aa, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A2 = state(InteractionTest){
+val Ab = state(InteractionTest){
     // 1b Non-genuine smiles
 
     val nonHappyEyes = defineGesture {
@@ -191,7 +200,9 @@ val A2 = state(InteractionTest){
 
 
     onEntry {
-        furhat.say("A2")
+        delay(2000)
+        furhat.say("interaction Ab")
+        delay(2000)
 
         furhat.gesture(Gestures.BigSmile(strength = 2.0, duration=3.00), async = true)
         furhat.gesture(nonHappyEyes)
@@ -208,16 +219,27 @@ val A2 = state(InteractionTest){
         furhat.gesture(nonHappyEyes)
         furhat.gesture(Gestures.BrowFrown)
         furhat.say("Trust me")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A3)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: A 2, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ac)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: A 2, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ab, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A3 = state(InteractionTest){
+val Ac = state(InteractionTest){
     // 1c Total lack of smile
     val halfClosedEyes = defineGesture {
         frame(0.22, 5.44) {
@@ -232,7 +254,9 @@ val A3 = state(InteractionTest){
     }
 
     onEntry {
-        furhat.say("A3")
+        delay(2000)
+        furhat.say("interaction Ac")
+        delay(2000)
 
         furhat.gesture(halfClosedEyes, async = true)
         furhat.say("Hey I am so glad to see you detective!")
@@ -242,16 +266,26 @@ val A3 = state(InteractionTest){
         furhat.say("I went to bed around 11" + "I was a close friend of Albert")
         furhat.gesture(halfClosedEyes, async = true)
         furhat.say("I would never hurt him. Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A4)
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ac, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ad)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ac, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ac, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A4 = state(InteractionTest){
+val Ad = state(InteractionTest){
     // 1d Displays a feeling of contempt.
 
     val rollEyes = defineGesture {
@@ -268,7 +302,9 @@ val A4 = state(InteractionTest){
     }
 
     onEntry {
-        furhat.say("A4")
+        delay(2000)
+        furhat.say("interaction Ad")
+        delay(2000)
 
         furhat.say("Hey I am so glad to see you detective!")
         furhat.gesture(Gestures.ExpressDisgust(strength = 0.5, duration = 2.50), async = true)
@@ -280,38 +316,61 @@ val A4 = state(InteractionTest){
         furhat.gesture(Gestures.BrowFrown(strength = 0.60, duration = 2.00), async = true)
         furhat.say(" I was a close friend of Albert. I would never hurt him. Trust me.")
         furhat.gesture(resetFace)
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A5)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ad, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ae)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ad, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ad, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A5 = state(InteractionTest){
+val Ae = state(InteractionTest){
     // 1e Babbles a lot, and uses phrases such as hmm, errr.
     onEntry {
-        furhat.say("A5")
+        delay(2000)
+        furhat.say("interaction Ae")
+        delay(2000)
 
         furhat.say("Hey I'm so glad to see you detective. Yes sorry what's that? You are asking what I did at the night of the murder? yes yes I can answer that. I was at home. " +
                 "And then I went to bed around 11 I think yes it must have been 11. I would never hurt him. I was his friend. We were really close, yes. " +
                 "I was a close friend of his, I would never hurt him. Never hurt Albert. I wouldn't! Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A6)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ae, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Af)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ae, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ae, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-// Test A6-A9 Furhat appear less trustworthy
+// Test Af-Ai Furhat appear less trustworthy
 
-val A6 = state(InteractionTest){
+val Af = state(InteractionTest){
     // 1f. Strong emotional expressivity, that correlates to what they are saying.
     onEntry {
-        furhat.say("A6")
+        delay(2000)
+        furhat.say("interaction Af")
+        delay(2000)
 
         furhat.gesture(Gestures.BigSmile(strength = 2.00), async = true)
         furhat.say("Hey I am so glad to see you detective!")
@@ -321,19 +380,31 @@ val A6 = state(InteractionTest){
         furhat.say("I was at home. I went to bed around 11. I was a close friend of Albert, I would never hurt him.")
         furhat.gesture(Gestures.BrowFrown(strength = 2.00), async = true)
         furhat.say(" Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A7)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Af, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ag)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Af, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Af, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A7 = state(InteractionTest){
+val Ag = state(InteractionTest){
     // 1g. Genuine smiles.
     onEntry {
-        furhat.say("A7")
+        delay(2000)
+        furhat.say("interaction Ag")
+        delay(2000)
 
         furhat.gesture(Gestures.BigSmile(strength = 2.0, duration = 2.0), async = true)
         furhat.say("Hey I am so glad to see you detective!")
@@ -342,71 +413,120 @@ val A7 = state(InteractionTest){
                 "I went to bed around 11. I was a close friend of Albert, I would never hurt him.")
         furhat.gesture(Gestures.ExpressSad, async = true)
         furhat.say("Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A8)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ag, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ah)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ag, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ag, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A8 = state(InteractionTest){
+val Ah = state(InteractionTest) {
     // 1h. A lot of nodding and head shaking when listening.
     onEntry {
-        furhat.say("A8")
+        delay(2000)
+        furhat.say("interaction Ah")
+        delay(2000)
 
         furhat.say("Hey I am so glad to see you detective!")
-        furhat.gesture(Gestures.Nod(strength = 0.4, duration=2.00), async = true)
+        furhat.gesture(Gestures.Nod(strength = 0.4, duration = 2.00), async = true)
         furhat.say("You are asking what I did at the night of the murder?")
-        furhat.gesture(Gestures.Nod(strength = 0.4, duration=2.00), async = true)
+        furhat.gesture(Gestures.Nod(strength = 0.4, duration = 2.00), async = true)
         furhat.say("Ok yes I can answer that. I was at home. " +
                 "I went to bed around 11. I was a close friend of Albert, I would never hurt him. Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A9)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ah, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Ai)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ah, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ah, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
-val A9 = state(InteractionTest){
+val Ai = state(InteractionTest){
     // 1i. Fewer head gestures (no glancing or gazing) shows attention and närvaro
     onEntry {
-        furhat.say("A9")
+        delay(2000)
+        furhat.say("interaction Ai")
+        delay(2000)
 
         furhat.gesture(Gestures.BrowRaise(duration = 10.00))
         furhat.say("Hey I am so glad to see you detective!")
         furhat.say("You are asking what I did at the night of the murder? I was at home. " +
                 "I went to bed around 11. I was a close friend of Albert, I would never hurt him. Trust me.")
-        delay(4000) // TODO: Change to listens for "yes" bf continuing
-        goto(A10)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction: Ai, now. When you are done say: Yes. ", timeout = 120000)
+
     }
 
+
     onResponse<Yes> {
-        // goto(A2) TODO: add
+        goto(Aj)
+    }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ai, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Ai, now. When you are done say: Yes. ", timeout = 120000)
     }
 }
 
 
-val A10 = state(InteractionTest){
-    // 1k. Neutral face.
+
+val Aj = state(InteractionTest){
+    // 1j. Neutral face.
     onEntry {
-        furhat.say("A11")
+        delay(2000)
+        furhat.say("interaction Aj")
+        delay(2000)
 
         furhat.say("Hey I am so glad to see you detective!")
         furhat.say("You are asking what I did at the night of the murder? I was at home. " +
                 "I went to bed around 11. I was a close friend of Albert, I would never hurt him. Trust me.")
-        delay(100) // TODO: Change to listens for "yes" bf continuing
-        goto(IdleTest)
+
+        delay(3000)
+        furhat.ask("You can fill in the form for interaction:: Aj, now. When you are done say: Yes. ", timeout = 120000)
 
     }
+
 
     onResponse<Yes> {
-        // goto(IdleTest) TODO: add
+        goto(IdleTest)
     }
+
+    onResponse {
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Aj, now. When you are done say: Yes. ", timeout = 120000)
+    }
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for interaction: Aj, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
 }
+
 
 
 // For Test B:
