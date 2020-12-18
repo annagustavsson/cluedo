@@ -93,9 +93,6 @@ val ChooseTest = state(InteractionTest){
     onResponse<TestC> {
         furhat.say("You have chosen test C.")
         furhat.say("In this test you will have a conversation with Furhat.")
-        //furhat.say("One time with the Furhat face and one time with the chat.")
-        //furhat.say("Your supervisor will help you with knowing when to use what.")
-        //furhat.say("The test starts right now.")
         goto(C)
     }
 }
@@ -572,17 +569,11 @@ val B2 = state(InteractionTest) {
 // Test C: furhat with chat or furhat with face, but same code for both
 val C = state(InteractionTest) {
     onEntry {
-        //delay(3000)
         furhat.say("The test starts now.")
         delay(1000)
         furhat.say("What will you do later today?")
         furhat.listen()
     }
-
-    /* onResponse<No> {
-         furhat.say("Okay then. You can fill out the form now.")
-         goto(IdleTest)
-     }*/
 
     onResponse {
         furhat.say("That sounds nice. What else will you do?")
@@ -609,35 +600,6 @@ val CCC = state(InteractionTest) {
     onResponse {
         furhat.say("Cool. Thank you for a lovely conversation.")
         furhat.say("You can fill out the form for the interaction now.")
-        //goto(CCCC)
         goto(IdleTest)
     }
 }
-
-/*val CCCC = state(InteractionTest) {
-    onEntry {
-        //furhat.listen()
-        //delay(3000)
-        furhat.ask("You can fill in the form for the interaction, now. When you are done say: Yes.", timeout = 120000)
-    }
-
-    onResponse<Yes> {
-        goto(IdleTest)
-        //goto(ChooseTest)
-        //Går inte att göra på samma sätt som för A, pga blir rekursivt problem
-        //eftersom man vill gå tillbaka till exakt samma konversation (val C).
-        //goto(C)
-    }
-
-    onResponse<No> {
-        goto(IdleTest)
-    }
-
-    onResponse {
-        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for the interaction, now. When you are done say: Yes. ", timeout = 120000)
-    }
-
-    onNoResponse { // Catches silence
-        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for the interaction, now. When you are done say: Yes. ", timeout = 120000)
-    }
-}*/
