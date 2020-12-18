@@ -21,7 +21,7 @@ val IdleTest : State = state {
         furhat.setVoice(Language.ENGLISH_GB, "Brian")
         if (users.count > 0) {
             furhat.attend(users.random)
-            goto(StartTest)
+            goto(ChooseTest)
         }
     }
 
@@ -33,7 +33,7 @@ val IdleTest : State = state {
 
     onUserEnter {
         furhat.attend(it)
-        goto(StartTest)
+        goto(ChooseTest)
     }
 }
 
@@ -43,7 +43,7 @@ val InteractionTest : State = state {
         if (users.count > 0) {
             if (it == users.current) {
                 furhat.attend(users.other)
-                goto(StartTest)
+                goto(ChooseTest)
             } else {
                 furhat.glance(it)
             }
@@ -57,22 +57,6 @@ val InteractionTest : State = state {
     }
 }
 
-val StartTest = state(InteractionTest){
-    onEntry {
-        furhat.ask("Are you ready for the user test?")
-        //goto(C)
-    }
-
-    onResponse<Yes> {
-        goto(ChooseTest)
-    }
-
-    onResponse<No> {
-        furhat.say("Oh, that's too bad. Thank you anyways.")
-        goto(IdleTest)
-    }
-}
-
 val ChooseTest = state(InteractionTest){
     onEntry {
         furhat.ask("Are you going to do test A, B or C?")
@@ -81,18 +65,21 @@ val ChooseTest = state(InteractionTest){
     onResponse<TestA> {
         furhat.say("You have chosen test A. In this test, you will listen to me say a few sentences." +
                 " After each interaction, you will have time to answer a few questions in a form. The test starts right now.")
+        delay(2000)
         goto(Ai)
     }
 
     onResponse<TestB> {
         furhat.say("You have chosen test B. I will ask you a couple of questions for you to answer. " +
                 "The test starts right now.")
+        delay(2000)
         goto(B1)
     }
 
     onResponse<TestC> {
         furhat.say("You have chosen test C. I will ask you a couple of questions for you to answer. " +
                 "The test starts right now.")
+        delay(2000)
         goto(C)
     }
 }
