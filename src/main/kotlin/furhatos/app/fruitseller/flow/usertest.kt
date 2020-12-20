@@ -58,12 +58,29 @@ val InteractionTest : State = state {
     }
 }
 
-val ChooseTest = state(InteractionTest) {
-    onEntry {
 
-        val list = (1..3).shuffled()
-        val randomListItem = list.random()
-        if (randomListItem == 1) {
+val tests = (1..3).shuffled()
+
+object UserTestSet {
+
+    var count : Int = 0
+    var current: Int = tests[Random().nextInt(tests.lastIndex)]
+
+    fun next() {
+        count++
+        if (count >= tests.size)
+            count = 0
+        current = tests[count]
+    }
+}
+
+val ChooseTest = state(InteractionTest) {
+
+    onEntry {
+        println(UserTestSet.next())
+        println(UserTestSet.current)
+
+        if (UserTestSet.current == 1) {
             furhat.say("You will now do test A.")
             delay(1500)
             furhat.say(" In this test, you will listen to me say a few sentences.")
@@ -73,7 +90,7 @@ val ChooseTest = state(InteractionTest) {
             furhat.say("The test starts right now.")
             delay(4000)
             goto(Ai)
-        } else if (randomListItem == 2) {
+        } else if (UserTestSet.current == 2) {
             furhat.say("You will now do test B.")
             delay(1500)
             furhat.say(" In this test, you will listen to me say a few sentences.")
@@ -83,7 +100,7 @@ val ChooseTest = state(InteractionTest) {
             furhat.say("The test starts right now.")
             delay(4000)
             goto(B)
-        } else {
+        } else if (UserTestSet.current == 3){
             furhat.say("You will now do test C.")
             delay(1500)
             furhat.say(" In this test, I will ask a couple of questions for you to answer.")
@@ -93,6 +110,8 @@ val ChooseTest = state(InteractionTest) {
             furhat.say("The test starts right now.")
             delay(4000)
             goto(C)
+        } else {
+            furhat.say("thank you for your participation.")
         }
     }
 }
@@ -577,7 +596,7 @@ val SaySentence : State = state(parent = InteractionTest){
         furhat.say("Perfect!")
         if (++rounds >= maxRounds) {
             furhat.say("That was the last sentence. Thank you!")
-            goto(IdleTest)
+            goto(ChooseTest)
         } else {
             furhat.say("Here's the next sentence.")
             goto(NewSentence)
@@ -600,11 +619,6 @@ val C = state(InteractionTest) {
         furhat.say("What will you do later today?")
         furhat.listen()
     }
-
-   /* onResponse<No> {
-        furhat.say("Okay then. You can fill out the form now.")
-        goto(IdleTest)
-    }*/
 
     onResponse {
         furhat.say("That sounds nice. What else will you do?")
