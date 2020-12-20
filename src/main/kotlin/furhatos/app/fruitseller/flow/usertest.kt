@@ -565,7 +565,7 @@ val sentences = mutableListOf(
         Sentence("Let’s go now because the shows will be shutting down in half an hour!", sentenceNo="J"),
         Sentence("As the number one car slammed its brakes around the turn, my foot hit the gas, and I swung around him, crossing the finish line and winning the race.", sentenceNo="K"),
         Sentence("The number one car slammed its brakes around the turn. My foot hit the gas, and I swung around him. I crossed the finish line, winning the race.", sentenceNo="L")
-        )
+)
 
 
 // Test B2: Long and short sentences.
@@ -613,7 +613,8 @@ val SaySentence : State = state(parent = InteractionTest){
 
 
 
-// Test C: furhat with chat or furhat with face, but same code for both
+// Test C: furhat with chat or furhat with face. C is followed by D in the code.
+// Make sure you are ready when the participant has filled out the form to switch interface.
 val C = state(InteractionTest) {
     onEntry {
         furhat.say("What will you do later today?")
@@ -643,8 +644,62 @@ val CCC = state(InteractionTest) {
     }
 
     onResponse {
-        furhat.say("Cool. Thank you for a lovely conversation. You can go ahead and fill out the form now.")
-        goto(IdleTest)
+        furhat.say("Cool. Thank you for a lovely conversation.")
+        goto(CCCC)
     }
 }
 
+val CCCC = state(InteractionTest){
+    onEntry {
+        furhat.ask("You can go ahead and fill out the form now. When you are done, just say: Yes, " +
+                "and we will continue with the last part of C.", timeout = 120000)
+    }
+
+    onResponse<Yes> {
+        goto(D)
+    }
+
+    onResponse {// catches answers that are not "Yes"
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for the interaction, now. When you are done say: Yes. ", timeout = 120000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I'm sorry, I did not understand that. You can fill in the form for the interaction, now. When you are done say: Yes. ", timeout = 120000)
+    }
+}
+// D is the second part of test C, if C is with the furhat face, then D is only with the chat.
+// D is followed directly after C.
+val D = state(InteractionTest) {
+    onEntry {
+        furhat.say("What will you do later today?")
+        furhat.listen()
+    }
+
+    onResponse {
+        furhat.say("That sounds nice. What else will you do?")
+        goto(DD)
+    }
+}
+
+val DD = state(InteractionTest) {
+    onEntry {
+        furhat.listen()
+    }
+
+    onResponse {
+        furhat.say("That sounds interesting too. What else will you do?")
+        goto(DDD)
+    }
+}
+
+val DDD = state(InteractionTest) {
+    onEntry {
+        furhat.listen()
+    }
+
+    onResponse {
+        furhat.say("Cool. Thank you for a lovely conversation.")
+        furhat.say("You can go ahead and fill out the form now. Then you are done with test C.")
+        goto(IdleTest)
+    }
+}
