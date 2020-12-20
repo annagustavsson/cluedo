@@ -274,6 +274,7 @@ val Ac = state(InteractionTest){
 
 
     onResponse<Yes> {
+        delay(6000)
         goto(IdleTest)
     }
 
@@ -596,6 +597,7 @@ val SaySentence : State = state(parent = InteractionTest){
         furhat.say("Perfect!")
         if (++rounds >= maxRounds) {
             furhat.say("That was the last sentence. Thank you!")
+            delay(6000)
             goto(ChooseTest)
         } else {
             furhat.say("Here's the next sentence.")
@@ -700,6 +702,7 @@ val DDD = state(InteractionTest) {
     onResponse {
         furhat.say("Cool. Thank you for a lovely conversation.")
         furhat.say("You can go ahead and fill out the form now. Then you are done with test C.")
+        delay(6000)
         goto(IdleTest)
     }
 }
