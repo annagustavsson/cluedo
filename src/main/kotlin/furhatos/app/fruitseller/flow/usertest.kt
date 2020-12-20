@@ -530,7 +530,7 @@ class Sentence(val text: String, sentenceNo: String) {
     val sentenceNo = sentenceNo
 }
 
-const val maxRounds = 3
+const val maxRounds = 12
 var rounds = 0
 
 val sentences = mutableListOf(
