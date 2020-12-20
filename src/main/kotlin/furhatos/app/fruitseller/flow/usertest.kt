@@ -11,6 +11,7 @@ import furhatos.nlu.Intent
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.util.Language
+import java.util.*
 
 val IdleTest : State = state {
 
@@ -57,48 +58,42 @@ val InteractionTest : State = state {
     }
 }
 
-val ChooseTest = state(InteractionTest){
+val ChooseTest = state(InteractionTest) {
     onEntry {
-        furhat.ask("Are you going to do test A, B or C?")
-    }
 
-    onResponse<TestA> {
-        furhat.say("You have chosen test A. In this test, you will listen to me say a few sentences." +
-                " After each interaction, you will have time to answer a few questions in a form. The test starts right now.")
-        delay(2000)
-        goto(Ai)
-    }
-
-    onResponse<TestB> {
-        furhat.say("You have chosen test B. I will ask you a couple of questions for you to answer. " +
-                "The test starts right now.")
-        delay(2000)
-        goto(B1)
-    }
-
-    onResponse<TestC> {
-        furhat.say("You have chosen test C. I will ask you a couple of questions for you to answer. " +
-                "The test starts right now.")
-        delay(2000)
-        goto(C)
-    }
-}
-
-class TestA: Intent() {
-    override fun getExamples(lang: Language): List<String>{
-        return listOf("Test A", "I wanna do test A", "A", "The first", "the first one")
-    }
-}
-
-class TestB: Intent() {
-    override fun getExamples(lang: Language): List<String>{
-        return listOf("Test B", "I wanna do test B", "B", "The second", "the second one")
-    }
-}
-
-class TestC: Intent() {
-    override fun getExamples(lang: Language): List<String>{
-        return listOf("Test C", "I wanna do test C", "C", "The third", "the third one")
+        val list = (1..3).shuffled()
+        val randomListItem = list.random()
+        if (randomListItem == 1) {
+            furhat.say("You will now do test A.")
+            delay(1500)
+            furhat.say(" In this test, you will listen to me say a few sentences.")
+            delay(1000)
+            furhat.say(" After each interaction, you will have time to answer a few questions in form A.")
+            delay(1000)
+            furhat.say("The test starts right now.")
+            delay(4000)
+            goto(Ai)
+        } else if (randomListItem == 2) {
+            furhat.say("You will now do test B.")
+            delay(1500)
+            furhat.say(" In this test, you will listen to me say a few sentences.")
+            delay(1000)
+            furhat.say(" After each sentence, you will fill in the corresponding section in form B.")
+            delay(1000)
+            furhat.say("The test starts right now.")
+            delay(4000)
+            goto(B)
+        } else {
+            furhat.say("You will now do test C.")
+            delay(1500)
+            furhat.say(" In this test, I will ask a couple of questions for you to answer.")
+            delay(1000)
+            furhat.say(" Afterwards, I will ask you to fill in form C.")
+            delay(1000)
+            furhat.say("The test starts right now.")
+            delay(4000)
+            goto(C)
+        }
     }
 }
 
@@ -500,7 +495,6 @@ val Aj = state(InteractionTest){
 
     }
 
-
     onResponse<Yes> {
         goto(Ag)
     }
@@ -514,44 +508,91 @@ val Aj = state(InteractionTest){
 
 }
 
+object SentenceSet {
 
-// For Test B:
-// Should we test both longer and shorter answers from furhat with furhat nodding/gazing?
-// i.e. showing whether he is listening? That will be six combinations if we follow the document.
+    var count : Int = 0
+    var current: Sentence = sentences[Random().nextInt(sentences.lastIndex)]
 
-
-// Test B1: long answer from furhat
-val B1 = state(InteractionTest){
-    onEntry {
-        furhat.ask("Tell me about your day?")
+    init {
+        sentences.shuffle()
     }
 
-    onResponse<No> {
-        furhat.say("Okay then.")
-        goto(B2)
-    }
-
-    onResponse {
-        furhat.ask("That sounds really lovely indeed. And a lot of more babbling and so on and so forth. " +
-                "But could there possible be anything else you would like to add on that note?")
+    fun next() {
+        count++
+        if (count >= sentences.size)
+            count = 0
+        current = sentences[count]
+        //AnswerOption().forget()
     }
 }
 
-// Test B2: short answer from furhat
-val B2 = state(InteractionTest) {
+class Sentence(val text: String, sentenceNo: String) {
+    val sentenceNo = sentenceNo
+}
+
+const val maxRounds = 3
+var rounds = 0
+
+val sentences = mutableListOf(
+        Sentence("Tiffany felt lazy. She grabbed a book. She flopped on the couch. She read.", sentenceNo="A"),
+        Sentence("Feeling lazy, tiffany grabbed a book and flopped on the couch.", sentenceNo="B"),
+        Sentence("I went to the bar. Grabbed a bottle. Poured myself a glass. ", sentenceNo="C"),
+        Sentence("At the bar, I poured myself some wine from a bottle.", sentenceNo="D"),
+        Sentence("I heard the wheels squealing as I saw her coming down the street with the stroller. ", sentenceNo="E"),
+        Sentence("I heard the wheels squeal. I saw the stroller. She turned down my street. ", sentenceNo="F"),
+        Sentence("I like reading more than Diane", sentenceNo="G"),
+        Sentence("I like reading more than Diane does", sentenceNo="H"),
+        Sentence("Let’s go!", sentenceNo="I"),
+        Sentence("Let’s go now because the shows will be shutting down in half an hour!", sentenceNo="J"),
+        Sentence("As the number one car slammed its brakes around the turn, my foot hit the gas, and I swung around him, crossing the finish line and winning the race.", sentenceNo="K"),
+        Sentence("The number one car slammed its brakes around the turn. My foot hit the gas, and I swung around him. I crossed the finish line, winning the race.", sentenceNo="L")
+        )
+
+
+// Test B2: Long and short sentences.
+val B : State = state(parent = InteractionTest){
     onEntry {
-        furhat.ask("Tell me about what you will do tomorrow?")
-    }
-
-    onResponse<No> {
-        furhat.say("Okay then. You can fill out the form now.")
-        goto(IdleTest)
-    }
-
-    onResponse {
-        furhat.ask("That's nice. Anything else you will do?")
+        rounds = 0
+        SentenceSet.next()
+        goto(SaySentence)
     }
 }
+
+val NewSentence : State = state(parent = InteractionTest){
+    onEntry {
+        SentenceSet.next()
+        goto(SaySentence)
+    }
+}
+
+val SaySentence : State = state(parent = InteractionTest){
+    onEntry {
+        furhat.say(SentenceSet.current.text + " ")
+        delay(1000)
+        furhat.say("Please fill in section, ${SentenceSet.current.sentenceNo}.")
+        furhat.ask("When you're done, say yes.", timeout = 200000)
+    }
+
+    onResponse<Yes> {
+        furhat.say("Perfect!")
+        if (++rounds >= maxRounds) {
+            furhat.say("That was the last sentence. Thank you!")
+            goto(IdleTest)
+        } else {
+            furhat.say("Here's the next sentence.")
+            goto(NewSentence)
+        }
+    }
+
+    onNoResponse { // Catches silence
+        furhat.say("I'm sorry, I did not understand that")
+        furhat.say("Please fill in section, ${SentenceSet.current.sentenceNo}.")
+        furhat.ask("When you're done, say yes.", timeout = 200000)
+    }
+}
+
+
+
 
 // Test C: furhat with chat or furhat with face, but same code for both
 val C = state(InteractionTest) {
