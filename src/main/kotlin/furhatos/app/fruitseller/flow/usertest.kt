@@ -84,41 +84,29 @@ val ChooseTest = state(InteractionTest) {
         val chosenTest = "C";
 
         if (chosenTest == "A") {
-            furhat.say("You will now do test A.")
-            delay(1500)
-            furhat.say(" In this test, you will listen to me say a few sentences.")
-            delay(1000)
-            furhat.say(" After each interaction, you will have time to answer a few questions in form A. " +
-                    "You can start with answering the pre-test question in the form for test A. The test will start in 10 seconds")
-            delay(10000)
-            furhat.say("The test starts right now.")
-            delay(4000)
-            goto(Ai)
+            goto(A)
         } else if (chosenTest == "B") {
-            furhat.say("You will now do test B.")
-            delay(1500)
-            furhat.say(" In this test, you will listen to me say a few sentences.")
-            delay(1000)
-            furhat.say(" After each sentence, you will fill in the corresponding section in form B." +
-                    "You can start with answering the pre-test question in the form for test B. The test will start in 10 seconds")
-            delay(10000)
-            furhat.say("The test starts right now.")
-            delay(4000)
             goto(B)
         } else if (chosenTest == "C"){
-            furhat.say("You will now do test C.")
-            delay(1500)
-            furhat.say(" In this test, I will ask a couple of questions for you to answer.")
-            delay(1000)
-            furhat.say(" Afterwards, I will ask you to fill in form C." +
-                    "You can start with answering the pre-test question in the form for test C. The test will start in 10 seconds")
-            delay(10000)
-            furhat.say("The test starts right now.")
-            delay(4000)
             goto(C)
         } else {
             furhat.say("thank you for your participation.")
         }
+    }
+}
+val A = state(InteractionTest) {
+    onEntry {
+
+        furhat.say("You will now do test A.")
+        delay(1500)
+        furhat.say(" In this test, you will listen to me say a few sentences.")
+        delay(1000)
+        furhat.say(" After each interaction, you will have time to answer a few questions in form A." +
+                "You can start with answering the pre-test question in the form for test A. The test will start in 10 seconds")
+        delay(10000)
+        furhat.say("The test starts right now.")
+        delay(4000)
+        goto(Ai)
     }
 }
 
@@ -283,9 +271,8 @@ val Ac = state(InteractionTest){
         delay(6000)
         // TODO INNAN TEST:
         // Fyll i testet som ska göras efter A här, goto(B), goto(C) eller goto(IdleTest)
-
-
-
+        furhat.say("thank you for your participation.")
+        goto(IdleTest)
     }
 
     onResponse {
@@ -478,9 +465,9 @@ val Ah = state(InteractionTest) {
 }
 
 val Ai = state(InteractionTest){
+
     // 1i. Fewer head gestures (no glancing or gazing) shows attention and närvaro
     onEntry {
-        delay(2000)
         furhat.say("interaction 1")
         delay(2000)
 
@@ -582,6 +569,16 @@ val sentences = mutableListOf(
 // Test B2: Long and short sentences.
 val B : State = state(parent = InteractionTest){
     onEntry {
+        furhat.say("You will now do test B.")
+        delay(1500)
+        furhat.say(" In this test, you will listen to me say a few sentences.")
+        delay(1000)
+        furhat.say(" After each sentence, you will fill in the corresponding section in form B." +
+                "You can start with answering the pre-test question in the form for test B. The test will start in 10 seconds")
+        delay(10000)
+        furhat.say("The test starts right now.")
+        delay(4000)
+
         rounds = 0
         SentenceSet.next()
         goto(SaySentence)
@@ -609,7 +606,8 @@ val SaySentence : State = state(parent = InteractionTest){
             furhat.say("That was the last sentence. Thank you!")
             delay(6000)
             // TODO INNAN TEST:
-            // Fyll i testet som ska göras efter B här, goto(Ai), goto(C) eller goto(IdleTest)
+            // Fyll i testet som ska göras efter B här, goto(A), goto(C) eller goto(IdleTest)
+            goto(A)
 
         } else {
             furhat.say("Here's the next sentence.")
@@ -631,6 +629,15 @@ val SaySentence : State = state(parent = InteractionTest){
 // Make sure you are ready when the participant has filled out the form to switch interface.
 val C = state(InteractionTest) {
     onEntry {
+        furhat.say("You will now do test C.")
+        delay(1500)
+        furhat.say(" In this test, I will ask a couple of questions for you to answer.")
+        delay(1000)
+        furhat.say(" Afterwards, I will ask you to fill in form C." +
+                "You can start with answering the pre-test question in the form for test C. The test will start in 10 seconds")
+        delay(10000)
+        furhat.say("The test starts right now.")
+        delay(4000)
         furhat.say("What will you do later today?")
         furhat.listen()
     }
@@ -719,6 +726,7 @@ val DDD = state(InteractionTest) {
         furhat.say("You can go ahead and fill out the form now. Then you are done with test C.")
         delay(6000)
         // TODO INNAN TEST:
-        // Fyll i testet som ska göras efter C här, goto(Ai), goto(B) eller goto(IdleTest)
+        // Fyll i testet som ska göras efter C här, goto(A), goto(B) eller goto(IdleTest)
+        goto(B)
     }
 }
