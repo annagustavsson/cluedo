@@ -63,14 +63,17 @@ val TakingOrder = state(Options) {
                 furhat.ask("Who do you want to question first?")
             }
 
-            users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
+            users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 || users.current.order.names.list.size == 3 -> {
+                call(GamePlay().chooseToGuess())
                 furhat.ask("Who do you want to question next?")
+
             }
 
-            users.current.order.names.list.size == 3 -> {
+            //users.current.order.names.list.size == 3 -> {
                 //goto(GamePlay().guessMurder())
-                call(GamePlay().chooseToGuess())
-            }
+            //    call(GamePlay().chooseToGuess())
+             //   furhat.ask("Who do you want to question next?")
+            //}
 
         }
     }
