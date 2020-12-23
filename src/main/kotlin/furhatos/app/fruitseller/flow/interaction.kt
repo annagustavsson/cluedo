@@ -7,6 +7,9 @@ import furhatos.gestures.Gestures
 import furhatos.nlu.common.*
 import java.util.Arrays
 
+
+var autopsyInformation = false
+
 val Start = state(Interaction){
 
     onEntry {
@@ -53,8 +56,8 @@ val TakingOrder = state(Options) {
 
     onEntry {
 
-        // om två OCH
-        if (users.current.order.names.list.size == 2) {
+        if (users.current.order.names.list.size == 2 && !autopsyInformation) {
+                autopsyInformation = true
                 call(GamePlay().autopsyResults) // note: 'call' instead of 'goto'
         }
 
