@@ -10,6 +10,8 @@ import furhatos.nlu.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.util.Language
+import java.util.Arrays
+
 
 class RequestOptions: Intent() {
     override fun getExamples(lang: Language): List<String> {
@@ -35,6 +37,7 @@ class GetName(
     }
     override fun toText(): String {
         return generate(name?.value)
+
     }
 }
 
@@ -69,6 +72,19 @@ class GamePlay : Intent() {
 
     }
 
+    fun chooseToGuess() : State = state(Options) {
+        onEntry {
+            furhat.ask("Do you wanna guess on the murderer?")
+        }
+        onResponse<Yes> {
+            goto(guessMurder())
+        }
+        onResponse<No> {
+            furhat.say("Okay.. I understand")
+            terminate()
+        }
+    }
+
     fun guessMurder() : State = state(Options) {
         onEntry {
             furhat.ask("You have interviewed all the suspects. Who do you think is the murder?")
@@ -96,10 +112,19 @@ class Suspects(
         timeOfMurder: String,
         beforeAndAfter: String,
         responsible: String,
-        suspicious: String
+        suspicious: String,
+        var relationTracker: Int = 0,
+        var eveningTracker: Int = 0,
+        var timeOfMurderTracker: Int = 0,
+        var beforeAfterTracker: Int = 0,
+        var responsibleTracker: Int = 0
 
 ) {
-    private var relationTracker: Int = 0 ; private var eveningTracker: Int = 0 ; private var timeOfMurderTracker: Int = 0 ; private var beforeAfterTracker: Int = 0
+    //private var relationTracker: Int = 0 ; private var eveningTracker: Int = 0 ; private var timeOfMurderTracker: Int = 0 ; private var beforeAfterTracker: Int = 0 ; private var responsibleTracker: Int = 0;
+
+
+
+
 
 
     val initialConversation = state(Options) {
@@ -141,6 +166,7 @@ class Suspects(
             furhat.say("I was Albert's $relationshipAlbert for a long time.")
             relationTracker += 1
             furhat.ask("Anything else you wonder?")
+
         }
 
         onResponse<QuestionEvening> {
@@ -171,7 +197,11 @@ class Suspects(
         }
 
         onResponse<QuestionResponsible> {
+            if (responsibleTracker > 0) {
+                furhat.say("You already asked that question. But fine, I can answer again")
+            }
             furhat.say(responsible)
+            responsibleTracker += 1
             random(
                     { furhat.ask("Do you have even more questions?")},
                     { furhat.ask("Anything else you wonder?")}

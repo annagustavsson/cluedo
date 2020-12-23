@@ -5,6 +5,7 @@ import furhatos.app.fruitseller.order
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
 import furhatos.nlu.common.*
+import java.util.Arrays
 
 val Start = state(Interaction){
 
@@ -62,17 +63,13 @@ val TakingOrder = state(Options) {
                 furhat.ask("Who do you want to question first?")
             }
 
-            users.current.order.names.list.size == 1 -> {
-            //users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
-                furhat.ask("Who do you want to question next?")
-            }
-
-             users.current.order.names.list.size == 2 -> {
+            users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
                 furhat.ask("Who do you want to question next?")
             }
 
             users.current.order.names.list.size == 3 -> {
-                goto(GamePlay().guessMurder())
+                //goto(GamePlay().guessMurder())
+                call(GamePlay().chooseToGuess())
             }
 
         }
@@ -90,9 +87,37 @@ val TakingOrder = state(Options) {
 fun orderReceived(names: NameList) : State = state(Options) {
     onEntry {
         furhat.say("Alright, I'll go get ${names.text}!")
-        names.list.forEach {
-            users.current.order.names.list.add(it)
+
+        val currentSuspectName : String = names.text
+        var suspectFound = false
+
+        for (suspect in users.current.order.names.list) {
+            val suspect = suspect.toString()
+            if (suspect == currentSuspectName) {
+                suspectFound = true
+                break
+            }
         }
+
+        if (!suspectFound) {
+            names.list.forEach {
+                users.current.order.names.list.add(it)
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // TODO: The creation of the suspects objects should probably be created somewhere else. And only called on here:
         when (names.text) {
             "Carol" -> {

@@ -1,0 +1,3 @@
+22:04:35 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+22:04:35 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+22:05:31 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 1942 ms since last event poll
