@@ -91,9 +91,9 @@ class GamePlay : Intent() {
         }
         onResponse{
             if (it.text == "Francis") {
-                furhat.say("That is correct! You win.")
+                furhat.say("That is correct! Congratulations on figuring this mystery out and on finding the murderer! ")
             }else{
-                furhat.say("That is incorrect! Game over.")
+                furhat.say("That is incorrect! You have used all your guesses and the game is over. But you are welcome to try the game again.")
             }
         }
     }
