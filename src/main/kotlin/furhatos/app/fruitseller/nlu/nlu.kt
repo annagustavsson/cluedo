@@ -57,9 +57,8 @@ class VisitName(var names : NameList? = null) : Intent() {
 
 // This class contains methods for the actual gameplay.
 class GamePlay : Intent() {
-
     val autopsyResults = state() {
-
+        println("Anna05")
         onEntry {
                 furhat.say("Detective! We just got the result from the autopsy. " +
                         "As suspected, they suggest that Albert might have been poisoned by inhalation." +
@@ -113,18 +112,12 @@ class Suspects(
         beforeAndAfter: String,
         responsible: String,
         suspicious: String,
-        var relationTracker: Int = 0,
-        var eveningTracker: Int = 0,
-        var timeOfMurderTracker: Int = 0,
-        var beforeAfterTracker: Int = 0,
-        var responsibleTracker: Int = 0
-
+        var relationTracker: Int,
+        var eveningTracker: Int,
+        var timeOfMurderTracker: Int,
+        var beforeAfterTracker: Int,
+        var responsibleTracker: Int
 ) {
-    //private var relationTracker: Int = 0 ; private var eveningTracker: Int = 0 ; private var timeOfMurderTracker: Int = 0 ; private var beforeAfterTracker: Int = 0 ; private var responsibleTracker: Int = 0;
-
-
-
-
 
 
     val initialConversation = state(Options) {
@@ -164,9 +157,8 @@ class Suspects(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say("I was Albert's $relationshipAlbert for a long time.")
-            relationTracker += 1
+            relationTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
-
         }
 
         onResponse<QuestionEvening> {
@@ -174,7 +166,7 @@ class Suspects(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say(evening)
-            eveningTracker += 1
+            eveningTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
         }
 
@@ -183,7 +175,7 @@ class Suspects(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say(timeOfMurder)
-            timeOfMurderTracker += 1
+            timeOfMurderTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
         }
 
@@ -192,7 +184,7 @@ class Suspects(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say(beforeAndAfter)
-            beforeAfterTracker += 1
+            beforeAfterTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
         }
 
@@ -201,7 +193,7 @@ class Suspects(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say(responsible)
-            responsibleTracker += 1
+            responsibleTracker += 1 // This probably only updates the value locally, would a setter-method help?
             random(
                     { furhat.ask("Do you have even more questions?")},
                     { furhat.ask("Anything else you wonder?")}
