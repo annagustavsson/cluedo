@@ -40,7 +40,7 @@ val Start = state(Interaction){
     }
 
     onNoResponse {
-        furhat.say("I didn't hear you.")
+        furhat.say("Sorry, I didn't hear you.")
         furhat.ask("What is your name, detective?")
     }
 }
@@ -100,6 +100,13 @@ val TakingOrder = state(Options) {
         furhat.say("Have a splendid day though!")
         goto(Idle)
     }
+
+    //passar detta???
+    onNoResponse {
+        furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("Who do you want to question?")
+    }
+
 }
 
 fun orderReceived(names: NameList) : State = state(Options) {
