@@ -44,8 +44,6 @@ val User.suspect1 : Suspect
         0,
         0,
                 active_question = "null"
-
-
 )
 
 val User.suspect2 : Suspect

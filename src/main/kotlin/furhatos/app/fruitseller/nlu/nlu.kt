@@ -140,7 +140,6 @@ class GamePlay : Intent() {
 }
 
 // This class contains all the suspects, with methods containing the different interview questions
-//class Suspects(
 class Suspect(
         firstName: String,
         lastName: String,
@@ -162,43 +161,25 @@ class Suspect(
         var active_question: String
 ) {
 
-
     val initialConversation = state(Options) {
         onEntry {
             furhat.setTexture(texture)
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
-            //furhat.ask("Did you have some questions for me?")
-            furhat.listen()
-            //---goto(interviewConversation)---
-           /* if (guilty) {
-                furhat.say("I'm guilty, oooops.")
-            } else {
-                furhat.say("I'm innocent. I was Albert's $relationshipAlbert for Gods sake! Good bye.")
-            }
-            furhat.setTexture("male")
-            furhat.setVoice(Language.ENGLISH_GB, "Brian")
-            if (firstName=="Carol") {
-                furhat.say("Yeah she's pretty rude.")
-            }else{
-                furhat.say("Yeah he's pretty rude.")
-            }
-            goto(TakingOrder)*/ //ChooseToQuestion
-        }
-
-        onNoResponse {
+            delay(1000)
+            // if we are to use onResponse RepeatQuestion, we should have furhat.listen instead of goto
+            //furhat.listen()
             goto(interviewConversation)
         }
-        // unnecessary here?
-        /*onResponse<RepeatQuestion> {
+        // unnecessary here? Or do we want to be able to repeat their job?
+        /*onNoResponse {
+            goto(interviewConversation)
+        }
+        onResponse<RepeatQuestion> {
             furhat.say("Of course.")
             furhat.say("I am ${"$firstName $lastName"}, and I work as a $job.")
             goto(interviewConversation)
         }*/
-
-        //onResponse<Yes> {
-        //    goto(interviewConversation)
-        //}
     }
 
     val interviewConversation = state(Options) {
@@ -209,7 +190,6 @@ class Suspect(
         onResponse<QuestionRelation> {
             // to know which answer to repeat
             active_question = "relation"
-
             if (relationTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -285,12 +265,7 @@ class Suspect(
             furhat.ask("What question did you have for me?")
         }
 
-        /*onResponse<RepeatQuestion> {
-            furhat.say("Of course.")
-            furhat.ask("Which question should I repeat?")
-        }*/
-
-        // with active_question to remember what answer to repeat
+        // active_question to remember what answer to repeat
         onResponse<RepeatQuestion> {
             furhat.say("Of course.")
             if (active_question == "relation") {
@@ -355,5 +330,3 @@ class QuestionSuspicious: Intent() {
         return listOf("Did you notice anything +suspicious that night?",  "Anyone who looked or acted particularly +suspicious?")
     }
 }
-
-
