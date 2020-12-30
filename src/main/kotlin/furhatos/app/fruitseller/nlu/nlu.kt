@@ -24,6 +24,16 @@ class RequestOptions: Intent() {
     }
 }
 
+class RepeatQuestion: Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Can you repeat the question?",
+                "Can you repeat?",
+                "Can you repeat that?",
+                "Could you repeat?",
+                "What did you say?")
+    }
+}
+
 class NameList : ListEntity<GetName>()
 
 
@@ -63,9 +73,25 @@ class GamePlay : Intent() {
                         " In this amount and high concentration, it’s both toxic and deadly." +
                         " He must've died within a matter of minutes." +
                         " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
-                terminate() //calling this state will resume the execution in Takingorder
+                furhat.listen()
+                //terminate() //calling this state will resume the execution in Takingorder
                  }
 
+        //can one get here?
+        onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            furhat.say("Detective! We just got the result from the autopsy. " +
+                    "As suspected, they suggest that Albert might have been poisoned by inhalation." +
+                    " He has traces of Ammonia in his lungs and around his mouth and nose." +
+                    " In this amount and high concentration, it’s both toxic and deadly." +
+                    " He must've died within a matter of minutes." +
+                    " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
+            terminate()
+        }
+
+        onNoResponse {
+            terminate()
+        }
     }
 
     fun chooseToGuess() : State = state(Options) {
@@ -84,6 +110,11 @@ class GamePlay : Intent() {
             furhat.say("Sorry, I didn't hear you.")
             furhat.ask("Do you wanna guess on the murderer?")
         }
+
+        onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            furhat.ask("Would you like to guess who the murderer is?")
+        }
     }
 
     fun guessMurder() : State = state(Options) {
@@ -101,6 +132,12 @@ class GamePlay : Intent() {
         onNoResponse {
             furhat.say("Sorry, I didn't hear you.")
             furhat.ask("Who do you think is the murderer?")
+        }
+
+        onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            furhat.say("You have interviewed all the suspects.")
+            furhat.ask("Would you like to guess who the murderer is?")
         }
     }
 }
@@ -133,7 +170,8 @@ class Suspects(
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
             //furhat.ask("Did you have some questions for me?")
-            goto(interviewConversation)
+            furhat.listen()
+            //---goto(interviewConversation)---
            /* if (guilty) {
                 furhat.say("I'm guilty, oooops.")
             } else {
@@ -147,6 +185,17 @@ class Suspects(
                 furhat.say("Yeah he's pretty rude.")
             }
             goto(TakingOrder)*/
+        }
+
+        onNoResponse {
+            goto(interviewConversation)
+        }
+
+        onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            furhat.say("I am ${"$firstName $lastName"}, and I work as a $job.")
+            goto(interviewConversation)
+
         }
 
         //onResponse<Yes> {

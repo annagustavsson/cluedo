@@ -43,6 +43,11 @@ val Start = state(Interaction){
         furhat.say("Sorry, I didn't hear you.")
         furhat.ask("What is your name, detective?")
     }
+
+ /*   onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
+        furhat.ask("I'm so glad you are here, detective. I wonder what your name is?")
+    }*/
 }
 
 val Options = state(Interaction) {
@@ -101,10 +106,14 @@ val TakingOrder = state(Options) {
         goto(Idle)
     }
 
-    //passar detta???
     onNoResponse {
         furhat.say("Sorry, I didn't hear you.")
         furhat.ask("Who do you want to question?")
+    }
+
+    onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
+        furhat.ask("I wonder who you would like to question?")
     }
 
 }
@@ -157,6 +166,11 @@ fun orderReceived(names: NameList) : State = state(Options) {
 
     onNoResponse {
         furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("Did you want something else?")
+    }
+
+    onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
         furhat.ask("Did you want something else?")
     }
 }
