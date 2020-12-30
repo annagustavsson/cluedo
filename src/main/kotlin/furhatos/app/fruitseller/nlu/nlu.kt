@@ -270,6 +270,7 @@ class Suspects(
         }
 
         onResponse<No> {
+            active_question = "null"
             furhat.say("Very well then")
             furhat.setTexture("male")
             furhat.setVoice(Language.ENGLISH_GB, "Brian")
