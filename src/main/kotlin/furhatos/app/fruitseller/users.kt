@@ -1,7 +1,7 @@
 package furhatos.app.fruitseller
 
 import furhatos.app.fruitseller.nlu.NameList
-import furhatos.app.fruitseller.nlu.Suspects
+import furhatos.app.fruitseller.nlu.Suspect
 import furhatos.records.User
 
 class NameData (
@@ -11,8 +11,9 @@ class NameData (
 val User.order : NameData
     get() = data.getOrPut(NameData::class.qualifiedName, NameData())
 
-val User.suspect1 : Suspects
-        get() = Suspects(
+val User.suspect1 : Suspect
+    get() = Suspect(
+
         "Carol",
         "Clark",
         "Construction worker",
@@ -47,8 +48,8 @@ val User.suspect1 : Suspects
 
 )
 
-val User.suspect2 : Suspects
-    get() = Suspects(
+val User.suspect2 : Suspect
+    get() = Suspect(
         "Harold",
         "Hoffman",
         "Chemistry professor",
@@ -82,8 +83,8 @@ val User.suspect2 : Suspects
             active_question = "null"
 )
 
-val User.suspect3 : Suspects
-    get() = Suspects(
+val User.suspect3 : Suspect
+    get() = Suspect(
             "Francis",
             "Franklin",
             "Cleaner",

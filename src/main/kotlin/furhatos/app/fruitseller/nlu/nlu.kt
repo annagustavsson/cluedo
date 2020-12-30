@@ -1,7 +1,7 @@
 package furhatos.app.fruitseller.nlu
 
 import furhatos.app.fruitseller.flow.Options
-import furhatos.app.fruitseller.flow.TakingOrder
+import furhatos.app.fruitseller.flow.ChooseToQuestion
 import furhatos.flow.kotlin.*
 import furhatos.nlu.*
 import furhatos.nlu.common.No
@@ -43,7 +43,6 @@ class GetName(
     }
     override fun toText(): String {
         return generate(name?.value)
-
     }
 }
 
@@ -73,10 +72,9 @@ class GamePlay : Intent() {
                         " He must've died within a matter of minutes." +
                         " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
                 furhat.listen()
-                //terminate() //calling this state will resume the execution in Takingorder
+                //terminate() //calling this state will resume the execution in ChooseToQuestion (Takingorder)
                  }
 
-        //can one get here?
         onResponse<RepeatQuestion> {
             furhat.say("Of course.")
             furhat.say("Detective! We just got the result from the autopsy. " +
@@ -142,7 +140,8 @@ class GamePlay : Intent() {
 }
 
 // This class contains all the suspects, with methods containing the different interview questions
-class Suspects(
+//class Suspects(
+class Suspect(
         firstName: String,
         lastName: String,
         job: String,
@@ -184,19 +183,18 @@ class Suspects(
             }else{
                 furhat.say("Yeah he's pretty rude.")
             }
-            goto(TakingOrder)*/
+            goto(TakingOrder)*/ //ChooseToQuestion
         }
 
         onNoResponse {
             goto(interviewConversation)
         }
-
-        onResponse<RepeatQuestion> {
+        // unnecessary here?
+        /*onResponse<RepeatQuestion> {
             furhat.say("Of course.")
             furhat.say("I am ${"$firstName $lastName"}, and I work as a $job.")
             goto(interviewConversation)
-
-        }
+        }*/
 
         //onResponse<Yes> {
         //    goto(interviewConversation)
@@ -279,7 +277,7 @@ class Suspects(
             }else{
                 furhat.say("Yeah he's pretty rude.")
             }
-            goto(TakingOrder)
+            goto(ChooseToQuestion)
         }
 
         onNoResponse {

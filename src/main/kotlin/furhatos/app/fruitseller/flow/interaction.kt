@@ -11,10 +11,7 @@ import furhatos.nlu.common.*
 import furhatos.records.User
 import java.util.Arrays
 
-
 var autopsyInformation = false
-
-
 
 val Start = state(Interaction){
     println("Anna02")
@@ -36,7 +33,7 @@ val Start = state(Interaction){
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
         furhat.say("Keep in mind that you can guess on the murderer only once.")
-        goto(TakingOrder)
+        goto(ChooseToQuestion)
     }
 
     onNoResponse {
@@ -55,7 +52,7 @@ val Options = state(Interaction) {
         println("Anna01")
         val names = it.intent.names
         if (names != null) {
-            goto(orderReceived(names))
+            goto(getSuspect(names))
         }
         else {
             propagate()
@@ -69,8 +66,7 @@ val Options = state(Interaction) {
     }
 }
 
-val TakingOrder = state(Options) {
-
+val ChooseToQuestion = state(Options) {
     onEntry {
         println("Anna04")
         if (users.current.order.names.list.size == 2 && !autopsyInformation) {
@@ -115,10 +111,9 @@ val TakingOrder = state(Options) {
         furhat.say("Of course.")
         furhat.ask("I wonder who you would like to question?")
     }
-
 }
 
-fun orderReceived(names: NameList) : State = state(Options) {
+fun getSuspect(names: NameList) : State = state(Options) {
     onEntry {
         furhat.say("Alright, I'll go get ${names.text}!")
 
@@ -138,7 +133,6 @@ fun orderReceived(names: NameList) : State = state(Options) {
                 users.current.order.names.list.add(it)
             }
         }
-
 
         // TODO: The creation of the suspects objects should probably be created somewhere else. And only called on here:
         when (names.text) {
