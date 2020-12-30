@@ -7,6 +7,7 @@ import furhatos.nlu.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.util.Language
+import zmq.socket.reqrep.Rep
 import java.util.Arrays
 
 
@@ -29,13 +30,11 @@ class RepeatQuestion: Intent() {
         return listOf("Can you +repeat the question?",
                 "Can you +repeat?",
                 "Can you +repeat that?",
-                "Could you +repeat?",
-                "What did you say?")
+                "Could you +repeat?")
     }
 }
 
 class NameList : ListEntity<GetName>()
-
 
 class GetName(
         var name : Name? = null) : ComplexEnumEntity() {
@@ -160,7 +159,8 @@ class Suspects(
         var eveningTracker: Int,
         var timeOfMurderTracker: Int,
         var beforeAfterTracker: Int,
-        var responsibleTracker: Int
+        var responsibleTracker: Int,
+        var active_question: String
 ) {
 
 
@@ -209,6 +209,9 @@ class Suspects(
         }
 
         onResponse<QuestionRelation> {
+            // to know which answer to repeat
+            active_question = "relation";
+
             if (relationTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -218,6 +221,7 @@ class Suspects(
         }
 
         onResponse<QuestionEvening> {
+            active_question = "evening"
             if (eveningTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -227,6 +231,7 @@ class Suspects(
         }
 
         onResponse<QuestionTimeOfMurder> {
+            active_question = "timeOfMurder"
             if (timeOfMurderTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -236,6 +241,7 @@ class Suspects(
         }
 
         onResponse<QuestionBeforeAndAfter> {
+            active_question = "beforeAndAfter"
             if (beforeAfterTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -245,6 +251,7 @@ class Suspects(
         }
 
         onResponse<QuestionResponsible> {
+            active_question = "responsible"
             if (responsibleTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
@@ -257,6 +264,7 @@ class Suspects(
         }
 
         onResponse<QuestionSuspicious> {
+            active_question = "suspicious"
             furhat.say(suspicious)
             furhat.ask("Anything else you wonder?")
         }
@@ -276,6 +284,38 @@ class Suspects(
         onNoResponse {
             furhat.say("Sorry, I didn't hear you.")
             furhat.ask("What question did you have for me?")
+        }
+
+        /*onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            furhat.ask("Which question should I repeat?")
+        }*/
+
+        // with active_question to remember what answer to repeat
+        onResponse<RepeatQuestion> {
+            furhat.say("Of course.")
+            if (active_question == "relation") {
+                furhat.say("I was Albert's $relationshipAlbert for a long time.")
+            }
+            if (active_question == "evening") {
+                furhat.say(evening)
+            }
+            if (active_question == "timeOfMurder") {
+                furhat.say(timeOfMurder)
+            }
+            if (active_question == "beforeAndAfter") {
+                furhat.say(beforeAndAfter)
+            }
+            if (active_question == "responsible") {
+                furhat.say(responsible)
+            }
+            if (active_question == "suspicious") {
+                furhat.say(suspicious)
+            }
+            if (active_question == "null") {
+                furhat.say("Which question should I repeat?")
+            }
+            furhat.ask("Anything else you wonder?")
         }
     }
 }

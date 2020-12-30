@@ -41,41 +41,45 @@ val User.suspect1 : Suspects
         0,
         0,
         0,
-        0
+        0,
+                active_question = "null"
+
+
 )
 
 val User.suspect2 : Suspects
     get() = Suspects(
-    "Harold",
-    "Hoffman",
-    "Chemistry professor",
-    "colleague",
-    false,
-    "Jeremy",
-    "Brian",
-    "Once I was done with all my classes at school I went by the liquor store, I had " +
-    "promised Albert I would help him with some purchases, he has been struggling a bit " +
-    "with money for some time now. So, I bought some stuff for the party and then I went " +
-    "home. I got dressed after a bite of food and then I went next door, to the party. There " +
-    "I was greeted by Albert and Carol. We talked a bit and then I went to the kitchen and " +
-    "made some drinks for myself and some others. Then I saw Francis and talked a little. " +
-    "Then I chatted to a few other people and then we found out what had happened. ",
-    "I was making another cocktail by myself in the " +
-    "kitchen. A martini, in fact. I am very careful about making my drinks, so it took " +
-    "quite some time. ",
-    "Well, as I have told you about my evening, you would know that I chatted with some " +
-    "people at the party before that terrible thing happened. And after we all found out " +
-    "about the murder, I walked home and went to bed. ",
-    "Hmm… well, Francis and Albert used to play a lot of Poker together. Until Francis " +
-    "owed Albert a lot of money… That could be something… ",
-    "Carol Clark was a bit more uptight than usual, she was running around being very busy. " +
-    "But Francis Franklin was acting a bit weird too, maybe he had breathed in too much " +
-    "vapor from all his cleaning products. ",
-    0,
-    0,
-    0,
-    0,
-    0
+        "Harold",
+        "Hoffman",
+        "Chemistry professor",
+        "colleague",
+        false,
+        "Jeremy",
+        "Brian",
+        "Once I was done with all my classes at school I went by the liquor store, I had " +
+        "promised Albert I would help him with some purchases, he has been struggling a bit " +
+        "with money for some time now. So, I bought some stuff for the party and then I went " +
+        "home. I got dressed after a bite of food and then I went next door, to the party. There " +
+        "I was greeted by Albert and Carol. We talked a bit and then I went to the kitchen and " +
+        "made some drinks for myself and some others. Then I saw Francis and talked a little. " +
+        "Then I chatted to a few other people and then we found out what had happened. ",
+        "I was making another cocktail by myself in the " +
+        "kitchen. A martini, in fact. I am very careful about making my drinks, so it took " +
+        "quite some time. ",
+        "Well, as I have told you about my evening, you would know that I chatted with some " +
+        "people at the party before that terrible thing happened. And after we all found out " +
+        "about the murder, I walked home and went to bed. ",
+        "Hmm… well, Francis and Albert used to play a lot of Poker together. Until Francis " +
+        "owed Albert a lot of money… That could be something… ",
+        "Carol Clark was a bit more uptight than usual, she was running around being very busy. " +
+        "But Francis Franklin was acting a bit weird too, maybe he had breathed in too much " +
+        "vapor from all his cleaning products. ",
+        0,
+        0,
+        0,
+        0,
+        0,
+            active_question = "null"
 )
 
 val User.suspect3 : Suspects
@@ -106,5 +110,6 @@ val User.suspect3 : Suspects
             0,
             0,
             0,
-            0
+            0,
+            active_question = "null"
     )
