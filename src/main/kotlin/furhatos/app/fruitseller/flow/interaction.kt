@@ -38,6 +38,11 @@ val Start = state(Interaction){
         furhat.say("Keep in mind that you can guess on the murderer only once.")
         goto(TakingOrder)
     }
+
+    onNoResponse {
+        furhat.say("I didn't hear you.")
+        furhat.ask("What is your name, detective?")
+    }
 }
 
 val Options = state(Interaction) {
@@ -141,5 +146,10 @@ fun orderReceived(names: NameList) : State = state(Options) {
 
     onResponse<No> {
         furhat.say("You have so far spoken to ${users.current.order.names}. Have a great day!")
+    }
+
+    onNoResponse {
+        furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("Did you want something else?")
     }
 }

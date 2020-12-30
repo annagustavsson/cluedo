@@ -2,10 +2,7 @@ package furhatos.app.fruitseller.nlu
 
 import furhatos.app.fruitseller.flow.Options
 import furhatos.app.fruitseller.flow.TakingOrder
-import furhatos.flow.kotlin.State
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.*
 import furhatos.nlu.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
@@ -82,6 +79,11 @@ class GamePlay : Intent() {
             furhat.say("Okay.. I understand")
             terminate()
         }
+
+        onNoResponse {
+            furhat.say("Sorry, I didn't hear you.")
+            furhat.ask("Do you wanna guess on the murderer?")
+        }
     }
 
     fun guessMurder() : State = state(Options) {
@@ -94,6 +96,11 @@ class GamePlay : Intent() {
             }else{
                 furhat.say("That is incorrect! You have used all your guesses and the game is over. But you are welcome to try the game again.")
             }
+        }
+
+        onNoResponse {
+            furhat.say("Sorry, I didn't hear you.")
+            furhat.ask("Who do you think is the murderer?")
         }
     }
 }
@@ -215,6 +222,11 @@ class Suspects(
                 furhat.say("Yeah he's pretty rude.")
             }
             goto(TakingOrder)
+        }
+
+        onNoResponse {
+            furhat.say("Sorry, I didn't hear you.")
+            furhat.ask("What question did you have for me?")
         }
     }
 }
