@@ -26,10 +26,10 @@ class RequestOptions: Intent() {
 
 class RepeatQuestion: Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Can you repeat the question?",
-                "Can you repeat?",
-                "Can you repeat that?",
-                "Could you repeat?",
+        return listOf("Can you +repeat the question?",
+                "Can you +repeat?",
+                "Can you +repeat that?",
+                "Could you +repeat?",
                 "What did you say?")
     }
 }
