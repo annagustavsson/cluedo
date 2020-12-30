@@ -62,7 +62,7 @@ class VisitName(var names : NameList? = null) : Intent() {
 
 // This class contains methods for the actual gameplay.
 class GamePlay : Intent() {
-    val autopsyResults = state() {
+    val autopsyResults = state {
         println("Anna05")
         onEntry {
                 furhat.say("Detective! We just got the result from the autopsy. " +
@@ -208,7 +208,7 @@ class Suspect(
 
         onResponse<QuestionRelation> {
             // to know which answer to repeat
-            active_question = "relation";
+            active_question = "relation"
 
             if (relationTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
