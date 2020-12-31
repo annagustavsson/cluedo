@@ -25,7 +25,7 @@ val User.suspect1 : Suspect
                 "busy running around, making sure that all the guests were content and that their " +
                 "glasses were never empty. You have no idea how much cleaning one has to do before a " +
                 "party like this.",
-        "I was with Harold in the kitchen. ",
+        "Yes I can answer, I was with Harold in the kitchen. ",
         "I was accompanying Harold who was all alone in the kitchen, but then I saw that " +
                 "there was a bottle of [CLEANING PRODUCT]  laying in the corner of the room. I thought " +
                 "it was very odd, and embarrassing! What kind of hostess leaves a bottle of some " +
@@ -36,7 +36,7 @@ val User.suspect1 : Suspect
                 "I’ve had to shut him up countless times when he’s been close to telling people about " +
                 "Harold’s forged degree. Harold has been very upset with him at times… Perhaps, Harold " +
                 "had something to do with it. ",
-        "See, this is the funny thing. I don’t remember using any [CLEANING PRODUCT] to clean " +
+        "Yes, actually I did, this is the funny thing. I don’t remember using any [CLEANING PRODUCT] to clean " +
                 "that day. ",
         0,
         0,
@@ -62,7 +62,7 @@ val User.suspect2 : Suspect
         "I was greeted by Albert and Carol. We talked a bit and then I went to the kitchen and " +
         "made some drinks for myself and some others. Then I saw Francis and talked a little. " +
         "Then I chatted to a few other people and then we found out what had happened. ",
-        "I was making another cocktail by myself in the " +
+        "Sure I can answer that detective. I was making another cocktail by myself in the " +
         "kitchen. A martini, in fact. I am very careful about making my drinks, so it took " +
         "quite some time. ",
         "Well, as I have told you about my evening, you would know that I chatted with some " +

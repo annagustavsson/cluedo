@@ -270,6 +270,8 @@ class Suspect(
                 furhat.say("What a stupid question")
                 furhat.gesture(Gestures.ExpressDisgust(strength = 0.3, duration = 2.50), async = true)
                 furhat.gesture(Gestures.BrowFrown(strength = 0.3, duration = 2.50), async = true)
+            }else{
+                furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
             }
             furhat.say(timeOfMurder)
             timeOfMurderTracker += 1 // This probably only updates the value locally, would a setter-method help?
@@ -312,6 +314,8 @@ class Suspect(
             active_question = "suspicious"
             if (firstName == "Francis"){
                 furhat.gesture(quickLeftGlance)
+            }else{
+                furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
             }
             furhat.say(suspicious)
             furhat.ask("Anything else you wonder?")

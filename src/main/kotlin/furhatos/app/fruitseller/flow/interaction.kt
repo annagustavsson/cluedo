@@ -22,6 +22,8 @@ val Start = state(Interaction){
     onEntry {
         // TODO nyår kommentera tillbaka furhat.ask("Thank god you're here detective! What is your name?")
         goto(ChooseToQuestion)
+        //furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
+        //furhat.say("Yes I can answer, I was with Harold in the kitchen. ")
     }
 
     // TODO nyår: kommentera tillbaka hela detta stycket
