@@ -20,30 +20,24 @@ val Start = state(Interaction){
     println("Anna02")
 
     onEntry {
-        // TODO nyår kommentera tillbaka furhat.ask("Thank god you're here detective! What is your name?")
-        goto(ChooseToQuestion)
-        //furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
-        //furhat.say("Yes I can answer, I was with Harold in the kitchen. ")
+        furhat.ask("Thank god you're here detective! What is your name?")
     }
 
-    // TODO nyår: kommentera tillbaka hela detta stycket
-    /*
     onResponse{
         println("Anna03")
         val username = it.text
         // The name of the person playing
         // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
-        furhat.gesture(Gestures.BigSmile, async = true)
-        // async = true means that the gesture does not block the following speech
+        furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
         furhat.say("Detective  $username! There has been a murder!")
-        furhat.gesture(Gestures.ExpressFear, async = true)
+        furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
         furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
         furhat.say("Keep in mind that you can guess on the murderer only once.")
         goto(ChooseToQuestion)
-    }*/
+    }
 
     onNoResponse {
         furhat.say("Sorry, I didn't hear you.")
