@@ -56,7 +56,7 @@ val User.suspect2 : Suspect
         "Jeremy",
         "Brian",
         "Once I was done with all my classes at school I went by the liquor store, I had " +
-        "promised Albert I would help him with some purchases, he has been struggling a bit " +
+        "promised Albert that I would help him with some purchases, he has been struggling a bit " +
         "with money for some time now. So, I bought some stuff for the party and then I went " +
         "home. I got dressed after a bite of food and then I went next door, to the party. There " +
         "I was greeted by Albert and Carol. We talked a bit and then I went to the kitchen and " +
@@ -96,13 +96,13 @@ val User.suspect3 : Suspect
                     "at me. Very sweet of her, but a bit strange since she got a Husband. After that, " +
                     "I chatted around and talked to pretty much all of the guests. Albert and I had a " +
                     "lovely talk about golf…. I just can’t believe he’s gone.",
-            "What a stupid question, I was in the kitchen like everyone else. If I remember " +
+            "I was in the kitchen like everyone else. If I remember " +
                     "right I saw the Professor making a drink. ",
-            "Silly, silly, silly. I already told you that I was in the kitchen during the " +
+            "I already told you that I was in the kitchen during the " +
                     "murder. That didn't change, I stayed in the kitchen and enjoyed my wine.",
-            "Since Albert got poisoned it must be Professor Harold Hoffman. He’s the only one that " +
-                    "knows chemistry and can create such dangerous chemical substances.",
-            "Hmm... Carol Clark flirted with me the whole evening. She was trying to get eye " +
+            "Since Albert got poisoned it must be Professor Harold Hoffman. Yeah it has to be. Harold. He’s the only one that " +
+                    "knows chemistry and can create such dangerous chemical substances. So yes I would say Harold",
+            "Well, Carol Clark flirted with me the whole evening. She was trying to get eye " +
                     "contact with me, and it was obvious that she wanted to make me laugh at her jokes. She " +
                     "didn't seem to care about her husband Albert Adams at all.",
             0,

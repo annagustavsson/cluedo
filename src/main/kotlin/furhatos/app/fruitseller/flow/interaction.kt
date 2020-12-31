@@ -6,19 +6,26 @@ import furhatos.app.fruitseller.suspect1
 import furhatos.app.fruitseller.suspect2
 import furhatos.app.fruitseller.suspect3
 import furhatos.flow.kotlin.*
+import furhatos.gestures.BasicParams
 import furhatos.gestures.Gestures
+import furhatos.gestures.defineGesture
 import furhatos.nlu.common.*
 import furhatos.records.User
+import furhatos.util.Language
 import java.util.Arrays
 
 var autopsyInformation = false
 
 val Start = state(Interaction){
     println("Anna02")
+
     onEntry {
-        furhat.ask("Thank god you're here detective! What is your name?")
+        // TODO nyår kommentera tillbaka furhat.ask("Thank god you're here detective! What is your name?")
+        goto(ChooseToQuestion)
     }
 
+    // TODO nyår: kommentera tillbaka hela detta stycket
+    /*
     onResponse{
         println("Anna03")
         val username = it.text
@@ -34,7 +41,7 @@ val Start = state(Interaction){
                 "They are all here ready to be questioned by you.")
         furhat.say("Keep in mind that you can guess on the murderer only once.")
         goto(ChooseToQuestion)
-    }
+    }*/
 
     onNoResponse {
         furhat.say("Sorry, I didn't hear you.")

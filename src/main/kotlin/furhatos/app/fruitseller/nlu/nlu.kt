@@ -7,6 +7,9 @@ import furhatos.nlu.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.util.Language
+import furhatos.gestures.Gestures
+import furhatos.gestures.defineGesture
+import furhatos.gestures.BasicParams
 import zmq.socket.reqrep.Rep
 import java.util.Arrays
 
@@ -186,6 +189,49 @@ class Suspect(
         onEntry {
             furhat.ask("So what questions did you have for me?")
         }
+        val quickLeftGlance = defineGesture {
+            frame(0.22, 0.44) {
+                BasicParams.LOOK_LEFT to 0.0
+            }
+            frame(0.66, 0.88) {
+                BasicParams.LOOK_LEFT to 0.3
+            }
+            frame(0.95, 1.05) {
+                BasicParams.LOOK_LEFT to 0.0
+            }
+        }
+
+        val quickRightGlance = defineGesture {
+            frame(0.22, 0.44) {
+                BasicParams.LOOK_RIGHT to 0.3
+            }
+            frame(0.50, 0.60) {
+                BasicParams.LOOK_RIGHT to 0.0
+            }
+        }
+
+        val rollEyes = defineGesture {
+            frame(0.50, 0.60) {
+                BasicParams.LOOK_UP to 0.3
+            }
+            frame(0.80, 0.90) {
+                BasicParams.LOOK_UP to 0.0
+            }
+        }
+
+        val nonHappyEyes = defineGesture {
+            // Used with the smile-gesture to resemble non-genuine smiles
+            frame(2.22, 6.44) {
+                BasicParams.EYE_SQUINT_LEFT to 0.0
+                BasicParams.EYE_SQUINT_RIGHT to 0.0
+
+            }
+            frame(7.00, 8.00) {
+                BasicParams.EYE_SQUINT_LEFT to 0.0
+                BasicParams.EYE_SQUINT_RIGHT to 0.0
+            }
+        }
+
 
         onResponse<QuestionRelation> {
             // to know which answer to repeat
@@ -203,7 +249,13 @@ class Suspect(
             if (eveningTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
+
+            if (firstName == "Francis"){
+                furhat.gesture(Gestures.GazeAway(strength = 0.50, duration=6.00), async = true)
+            }
             furhat.say(evening)
+
+
             eveningTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
         }
@@ -212,6 +264,12 @@ class Suspect(
             active_question = "timeOfMurder"
             if (timeOfMurderTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
+            }
+            if (firstName == "Francis"){
+                furhat.gesture(rollEyes, async=true)
+                furhat.say("What a stupid question")
+                furhat.gesture(Gestures.ExpressDisgust(strength = 0.3, duration = 2.50), async = true)
+                furhat.gesture(Gestures.BrowFrown(strength = 0.3, duration = 2.50), async = true)
             }
             furhat.say(timeOfMurder)
             timeOfMurderTracker += 1 // This probably only updates the value locally, would a setter-method help?
@@ -223,15 +281,24 @@ class Suspect(
             if (beforeAfterTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
+            if (firstName == "Francis"){
+                furhat.gesture(Gestures.BigSmile(strength = 0.3, duration = 8.0), async = true)
+                furhat.gesture(Gestures.BrowFrown( duration = 8.0), async = true)
+                furhat.gesture(nonHappyEyes, async = true)
+            }
             furhat.say(beforeAndAfter)
             beforeAfterTracker += 1 // This probably only updates the value locally, would a setter-method help?
             furhat.ask("Anything else you wonder?")
         }
 
         onResponse<QuestionResponsible> {
+
             active_question = "responsible"
             if (responsibleTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
+            }
+            if (firstName == "Francis"){
+                furhat.gesture(quickRightGlance)
             }
             furhat.say(responsible)
             responsibleTracker += 1 // This probably only updates the value locally, would a setter-method help?
@@ -243,6 +310,9 @@ class Suspect(
 
         onResponse<QuestionSuspicious> {
             active_question = "suspicious"
+            if (firstName == "Francis"){
+                furhat.gesture(quickLeftGlance)
+            }
             furhat.say(suspicious)
             furhat.ask("Anything else you wonder?")
         }
@@ -252,11 +322,6 @@ class Suspect(
             furhat.say("Very well then")
             furhat.setTexture("male")
             furhat.setVoice(Language.ENGLISH_GB, "Brian")
-            if (firstName=="Carol") {
-                furhat.say("Yeah she's pretty rude.")
-            }else{
-                furhat.say("Yeah he's pretty rude.")
-            }
             goto(ChooseToQuestion)
         }
 
