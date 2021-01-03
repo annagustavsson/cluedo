@@ -125,26 +125,10 @@ class Suspects(
             furhat.setTexture(texture)
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
-            //furhat.ask("Did you have some questions for me?")
             goto(interviewConversation)
-           /* if (guilty) {
-                furhat.say("I'm guilty, oooops.")
-            } else {
-                furhat.say("I'm innocent. I was Albert's $relationshipAlbert for Gods sake! Good bye.")
-            }
-            furhat.setTexture("male")
-            furhat.setVoice(Language.ENGLISH_GB, "Brian")
-            if (firstName=="Carol") {
-                furhat.say("Yeah she's pretty rude.")
-            }else{
-                furhat.say("Yeah he's pretty rude.")
-            }
-            goto(TakingOrder)*/
+
         }
 
-        //onResponse<Yes> {
-        //    goto(interviewConversation)
-        //}
     }
 
     val interviewConversation = state(Options) {
