@@ -6,18 +6,19 @@ import furhatos.app.fruitseller.suspect1
 import furhatos.app.fruitseller.suspect2
 import furhatos.app.fruitseller.suspect3
 import furhatos.flow.kotlin.*
+import furhatos.gestures.BasicParams
 import furhatos.gestures.Gestures
+import furhatos.gestures.defineGesture
 import furhatos.nlu.common.*
 import furhatos.records.User
+import furhatos.util.Language
 import java.util.Arrays
-
 
 var autopsyInformation = false
 
-
-
 val Start = state(Interaction){
     println("Anna02")
+
     onEntry {
         furhat.ask("Thank god you're here detective! What is your name?")
     }
@@ -27,17 +28,26 @@ val Start = state(Interaction){
         val username = it.text
         // The name of the person playing
         // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
-        furhat.gesture(Gestures.BigSmile, async = true)
-        // async = true means that the gesture does not block the following speech
+        furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
         furhat.say("Detective  $username! There has been a murder!")
-        furhat.gesture(Gestures.ExpressFear, async = true)
+        furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
         furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
         furhat.say("Keep in mind that you can guess on the murderer only once.")
-        goto(TakingOrder)
+        goto(ChooseToQuestion)
     }
+
+    onNoResponse {
+        furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("What is your name, detective?")
+    }
+
+ /*   onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
+        furhat.ask("I'm so glad you are here, detective. I wonder what your name is?")
+    }*/
 }
 
 val Options = state(Interaction) {
@@ -45,7 +55,7 @@ val Options = state(Interaction) {
         println("Anna01")
         val names = it.intent.names
         if (names != null) {
-            goto(orderReceived(names))
+            goto(getSuspect(names))
         }
         else {
             propagate()
@@ -59,8 +69,7 @@ val Options = state(Interaction) {
     }
 }
 
-val TakingOrder = state(Options) {
-
+val ChooseToQuestion = state(Options) {
     onEntry {
         println("Anna04")
         if (users.current.order.names.list.size == 2 && !autopsyInformation) {
@@ -95,9 +104,19 @@ val TakingOrder = state(Options) {
         furhat.say("Have a splendid day though!")
         goto(Idle)
     }
+
+    onNoResponse {
+        furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("Who do you want to question?")
+    }
+
+    onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
+        furhat.ask("I wonder who you would like to question?")
+    }
 }
 
-fun orderReceived(names: NameList) : State = state(Options) {
+fun getSuspect(names: NameList) : State = state(Options) {
     onEntry {
         furhat.say("Alright, I'll go get ${names.text}!")
 
@@ -117,7 +136,6 @@ fun orderReceived(names: NameList) : State = state(Options) {
                 users.current.order.names.list.add(it)
             }
         }
-
 
         // TODO: The creation of the suspects objects should probably be created somewhere else. And only called on here:
         when (names.text) {
@@ -141,5 +159,15 @@ fun orderReceived(names: NameList) : State = state(Options) {
 
     onResponse<No> {
         furhat.say("You have so far spoken to ${users.current.order.names}. Have a great day!")
+    }
+
+    onNoResponse {
+        furhat.say("Sorry, I didn't hear you.")
+        furhat.ask("Did you want something else?")
+    }
+
+    onResponse<RepeatQuestion> {
+        furhat.say("Of course.")
+        furhat.ask("Did you want something else?")
     }
 }
