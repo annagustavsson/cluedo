@@ -1,0 +1,4 @@
+13:59:12 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+13:59:13 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+14:00:53 [FruitsellerSkill] WARN  FurhatSpeech:285 - Could not find voice: Geraint (en-GB) - Unknown
+14:01:15 [EventSystem] INFO  FruitsellerSkill:184 - Terminating skill

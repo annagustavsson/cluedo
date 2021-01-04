@@ -1,0 +1,4 @@
+14:05:41 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+14:05:41 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+14:06:12 [FruitsellerSkill] WARN  FurhatSpeech:285 - Could not find voice: Matthew (en-GB) - Unknown
+14:06:14 [EventSystem] INFO  FruitsellerSkill:184 - Terminating skill

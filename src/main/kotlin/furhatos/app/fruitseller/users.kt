@@ -11,6 +11,7 @@ class NameData (
 val User.order : NameData
     get() = data.getOrPut(NameData::class.qualifiedName, NameData())
 
+
 val User.suspect1 : Suspect
     get() = Suspect(
 
@@ -53,8 +54,8 @@ val User.suspect2 : Suspect
         "Chemistry professor",
         "colleague",
         false,
-        "Jeremy",
-        "Geraint",
+        "Geremy",
+        "Brian-Neural",
         "Once I was done with all my classes at school I went by the liquor store, I had " +
         "promised Albert that I would help him with some purchases, he has been struggling a bit " +
         "with money for some time now. So, I bought some stuff for the party and then I went " +
@@ -88,7 +89,7 @@ val User.suspect3 : Suspect
             "childhood friend",
             true,
             "Ted",
-            "Emma",
+            "Amy",
             "I worked my 9 to 5 shift as usual. Then I went home, took a shower, " +
                     "got ready for the night, and drove out to Albert Adams and Carol Clark’s " +
                     "house. Then I was greeted by Carol, who offered me a cold beverage and winked " +

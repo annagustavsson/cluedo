@@ -1,0 +1,71 @@
+12:34:45 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+12:34:47 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+12:37:13 [FruitsellerSkill] WARN  FurhatSpeech:285 - Could not find voice: Geraint (en-GB) - Unknown
+12:37:36 [FruitsellerSkill] ERROR EventSystem:186 - Timed out while waiting for class furhatos.event.monitors.MonitorConfigVoice
+java.util.concurrent.TimeoutException
+	at java.util.concurrent.CompletableFuture.timedGet(CompletableFuture.java:1784)
+	at java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1928)
+	at furhatos.event.EventSystem.sendAndWait(EventSystem.java:183)
+	at furhatos.skills.FurhatSpeech.updateAndWaitUntilVoiceIsUpdated(FurhatSpeech.java:345)
+	at furhatos.skills.FurhatSpeech.setOnlyVoice(FurhatSpeech.java:273)
+	at furhatos.skills.FurhatEventWrapper.setOnlyVoice(FurhatEventWrapper.java:31)
+	at furhatos.skills.FurhatSpeech.setVoiceAndInputLanguage(FurhatSpeech.java:289)
+	at furhatos.skills.FurhatEventWrapper.setVoiceAndInputLanguage(FurhatEventWrapper.java:31)
+	at furhatos.flow.kotlin.Furhat.setVoice(Furhat.kt:690)
+	at furhatos.flow.kotlin.Furhat.internalSetVoice(Furhat.kt:711)
+	at furhatos.flow.kotlin.Furhat.setVoice(Furhat.kt:746)
+	at furhatos.app.fruitseller.nlu.Suspect$interviewConversation$1$8.invoke(nlu.kt:332)
+	at furhatos.app.fruitseller.nlu.Suspect$interviewConversation$1$8.invoke(nlu.kt:148)
+	at furhatos.flow.kotlin.TriggerRunner.run(TriggerRunner.kt:31)
+	at furhatos.flow.kotlin.Runner.runTrigger(Runner.kt:204)
+	at furhatos.flow.kotlin.Runner.runTrigger$default(Runner.kt:176)
+	at furhatos.flow.kotlin.StateRunner.run(StateRunner.kt:57)
+	at furhatos.flow.kotlin.Flow.tailRecRun(Flow.kt:146)
+	at furhatos.flow.kotlin.Flow.run(Flow.kt:110)
+	at furhatos.app.fruitseller.FruitsellerSkill.start(main.kt:9)
+	at furhatos.skills.Skill.initializeSkill(Skill.java:169)
+	at furhatos.skills.Skill.lambda$startSkill$2(Skill.java:227)
+	at java.lang.Thread.run(Thread.java:748)
+12:37:36 [FruitsellerSkill] WARN  FurhatSpeech:355 - Voice couldn't be updated in the allocated time
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3078 ms since last event poll
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3083 ms since last event poll
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3084 ms since last event poll
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3086 ms since last event poll
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3087 ms since last event poll
+12:37:36 [FruitsellerSkill] ERROR StateRunner:186 - java.lang.InterruptedException
+12:37:36 [FruitsellerSkill] WARN  Flow: 93 - Flow unknown unresponsive, 3122 ms since last event poll
+12:37:36 [ErrorLoggingThread] ERROR FruitsellerSkill:459 - java.lang.InterruptedException
+	at java.util.concurrent.FutureTask.awaitDone(FutureTask.java:404)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at furhatos.flow.kotlin.IntentClassifierBuilder.getIntentClassifier(IntentClassifierBuilder.kt:69)
+	at furhatos.flow.kotlin.Furhat.setSpeechRecPhrasesFromIntents(Furhat.kt:675)
+	at furhatos.flow.kotlin.ImplementationsKt$Listen$1$1.invoke(implementations.kt:43)
+	at furhatos.flow.kotlin.ImplementationsKt$Listen$1$1.invoke(implementations.kt)
+	at furhatos.flow.kotlin.StateRunner.runEntryTrigger(StateRunner.kt:180)
+	at furhatos.flow.kotlin.StateRunner.run(StateRunner.kt:65)
+	at furhatos.flow.kotlin.FlowControlRunner.tailRecRunCall(FlowControlRunner.kt:89)
+	at furhatos.flow.kotlin.FlowControlRunner.call(FlowControlRunner.kt:61)
+	at furhatos.flow.kotlin.FlowControlRunner.call$default(FlowControlRunner.kt:55)
+	at furhatos.flow.kotlin.ImplementationsKt$Ask$1$1.invoke(implementations.kt:220)
+	at furhatos.flow.kotlin.ImplementationsKt$Ask$1$1.invoke(implementations.kt)
+	at furhatos.flow.kotlin.StateRunner.runEntryTrigger(StateRunner.kt:180)
+	at furhatos.flow.kotlin.StateRunner.run(StateRunner.kt:65)
+	at furhatos.flow.kotlin.FlowControlRunner.tailRecRunCall(FlowControlRunner.kt:89)
+	at furhatos.flow.kotlin.FlowControlRunner.call(FlowControlRunner.kt:61)
+	at furhatos.flow.kotlin.FlowControlRunner.call$default(FlowControlRunner.kt:55)
+	at furhatos.flow.kotlin.Furhat.ask(Furhat.kt:493)
+	at furhatos.flow.kotlin.Furhat.ask$default(Furhat.kt:486)
+	at furhatos.flow.kotlin.Furhat.ask(Furhat.kt:467)
+	at furhatos.flow.kotlin.Furhat.ask$default(Furhat.kt:465)
+	at furhatos.app.fruitseller.flow.InteractionKt$ChooseToQuestion$1$1.invoke(interaction.kt:93)
+	at furhatos.app.fruitseller.flow.InteractionKt$ChooseToQuestion$1$1.invoke(interaction.kt)
+	at furhatos.flow.kotlin.StateRunner.runEntryTrigger(StateRunner.kt:180)
+	at furhatos.flow.kotlin.StateRunner.run(StateRunner.kt:65)
+	at furhatos.flow.kotlin.Flow.tailRecRun(Flow.kt:146)
+	at furhatos.flow.kotlin.Flow.run(Flow.kt:110)
+	at furhatos.app.fruitseller.FruitsellerSkill.start(main.kt:9)
+	at furhatos.skills.Skill.initializeSkill(Skill.java:169)
+	at furhatos.skills.Skill.lambda$startSkill$2(Skill.java:227)
+	at java.lang.Thread.run(Thread.java:748)
+
+12:37:41 [EventSystem] INFO  FruitsellerSkill:184 - Terminating skill

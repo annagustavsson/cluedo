@@ -29,11 +29,11 @@ val Start = state(Interaction){
         furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
         furhat.say("Detective  $username! There has been a murder!")
         furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
-        /*furhat.say("And we need your help to solve it. " +
+        furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
-        furhat.say("Keep in mind that you can guess on the murderer only once.")*/
+        furhat.say("Keep in mind that you can guess on the murderer only once.")
         goto(ChooseToQuestion)
     }
 
@@ -133,7 +133,7 @@ fun getSuspect(names: NameList) : State = state(Options) {
         if (!suspectFound) {
             names.list.forEach {
                 users.current.order.names.list.add(it)
-                println("suspect not found, added")
+                println("suspect not interviewed already, added to list")
             }
         }
 
