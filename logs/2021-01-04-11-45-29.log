@@ -1,0 +1,4 @@
+11:45:30 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+11:45:31 [FruitsellerSkill] INFO  FruitsellerSkill:166 - Starting skill
+11:46:16 [FruitsellerSkill] WARN  FurhatSpeech:285 - Could not find voice: Ursula (en-GB) - Unknown
+11:46:21 [EventSystem] INFO  FruitsellerSkill:184 - Terminating skill

@@ -17,25 +17,23 @@ import java.util.Arrays
 var autopsyInformation = false
 
 val Start = state(Interaction){
-    println("Anna02")
 
     onEntry {
         furhat.ask("Thank god you're here detective! What is your name?")
     }
 
     onResponse{
-        println("Anna03")
         val username = it.text
         // The name of the person playing
         // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
         furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
         furhat.say("Detective  $username! There has been a murder!")
         furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
-        furhat.say("And we need your help to solve it. " +
+        /*furhat.say("And we need your help to solve it. " +
                 "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
-        furhat.say("Keep in mind that you can guess on the murderer only once.")
+        furhat.say("Keep in mind that you can guess on the murderer only once.")*/
         goto(ChooseToQuestion)
     }
 
@@ -52,7 +50,7 @@ val Start = state(Interaction){
 
 val Options = state(Interaction) {
     onResponse<VisitName> {
-        println("Anna01")
+
         val names = it.intent.names
         if (names != null) {
             goto(getSuspect(names))
@@ -71,7 +69,6 @@ val Options = state(Interaction) {
 
 val ChooseToQuestion = state(Options) {
     onEntry {
-        println("Anna04")
         if (users.current.order.names.list.size == 2 && !autopsyInformation) {
                 autopsyInformation = true
                 call(GamePlay().autopsyResults) // note: 'call' instead of 'goto'
@@ -82,17 +79,19 @@ val ChooseToQuestion = state(Options) {
                 furhat.ask("Who do you want to question first?")
             }
 
-            users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 || users.current.order.names.list.size == 3 -> {
-                call(GamePlay().chooseToGuess())
+            //users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 || users.current.order.names.list.size == 3 -> {
+            users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
+            call(GamePlay().chooseToGuess())
                 furhat.ask("Who do you want to question next?")
 
             }
 
-            //users.current.order.names.list.size == 3 -> {
+            users.current.order.names.list.size == 3 -> {
+                furhat.say("You have now interviewed all the suspects")
                 //goto(GamePlay().guessMurder())
-            //    call(GamePlay().chooseToGuess())
-             //   furhat.ask("Who do you want to question next?")
-            //}
+                call(GamePlay().chooseToGuess())
+                furhat.ask("Who do you want to interview again?")
+            }
 
         }
     }
@@ -134,6 +133,7 @@ fun getSuspect(names: NameList) : State = state(Options) {
         if (!suspectFound) {
             names.list.forEach {
                 users.current.order.names.list.add(it)
+                println("suspect not found, added")
             }
         }
 

@@ -54,7 +54,7 @@ val User.suspect2 : Suspect
         "colleague",
         false,
         "Jeremy",
-        "Brian",
+        "Geraint",
         "Once I was done with all my classes at school I went by the liquor store, I had " +
         "promised Albert that I would help him with some purchases, he has been struggling a bit " +
         "with money for some time now. So, I bought some stuff for the party and then I went " +

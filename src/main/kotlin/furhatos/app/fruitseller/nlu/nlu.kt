@@ -119,7 +119,7 @@ class GamePlay : Intent() {
 
     fun guessMurder() : State = state(Options) {
         onEntry {
-            furhat.ask("You have interviewed all the suspects. Who do you think is the murder?")
+            furhat.ask("Who do you think is the murder?")
         }
         onResponse{
             if (it.text == "Francis") {
@@ -142,7 +142,9 @@ class GamePlay : Intent() {
     }
 }
 
-// This class contains all the suspects, with methods containing the different interview questions
+
+
+// This class contains contains different interview questions for each suspect
 class Suspect(
         firstName: String,
         lastName: String,
@@ -163,6 +165,8 @@ class Suspect(
         var responsibleTracker: Int,
         var active_question: String
 ) {
+
+   
 
     val initialConversation = state(Options) {
         onEntry {
@@ -362,6 +366,8 @@ class Suspect(
         }
     }
 }
+
+
 
 class QuestionRelation: Intent() {
 
