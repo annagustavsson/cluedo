@@ -98,7 +98,7 @@ val User.suspect3 : Suspect
                     "lovely talk about golf…. I just can’t believe he’s gone.",
             "I was in the kitchen like everyone else. If I remember " +
                     "right I saw the Professor making a drink. ",
-            "I already told you that I was in the kitchen during the " +
+            "I was in the kitchen during the " +
                     "murder. That didn't change, I stayed in the kitchen and enjoyed my wine.",
             "Since Albert got poisoned it must be Professor Harold Hoffman. Yeah it has to be. Harold. He’s the only one that " +
                     "knows chemistry and can create such dangerous chemical substances. So yes I would say Harold",

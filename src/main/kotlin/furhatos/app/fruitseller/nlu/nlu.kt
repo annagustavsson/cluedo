@@ -198,7 +198,7 @@ class Suspect(
                 BasicParams.LOOK_LEFT to 0.0
             }
             frame(0.66, 0.88) {
-                BasicParams.LOOK_LEFT to 0.3
+                BasicParams.LOOK_LEFT to 0.5
             }
             frame(0.95, 1.05) {
                 BasicParams.LOOK_LEFT to 0.0
@@ -207,7 +207,7 @@ class Suspect(
 
         val quickRightGlance = defineGesture {
             frame(0.22, 0.44) {
-                BasicParams.LOOK_RIGHT to 0.3
+                BasicParams.LOOK_RIGHT to 0.5
             }
             frame(0.50, 0.60) {
                 BasicParams.LOOK_RIGHT to 0.0
@@ -255,7 +255,7 @@ class Suspect(
             }
 
             if (firstName == "Francis"){
-                furhat.gesture(Gestures.GazeAway(strength = 0.50, duration=6.00), async = true)
+                furhat.gesture(Gestures.GazeAway(strength = 0.80, duration=6.00), async = true)
             }
             furhat.say(evening)
 
@@ -272,8 +272,8 @@ class Suspect(
             if (firstName == "Francis"){
                 furhat.gesture(rollEyes, async=true)
                 furhat.say("What a stupid question")
-                furhat.gesture(Gestures.ExpressDisgust(strength = 0.3, duration = 2.50), async = true)
-                furhat.gesture(Gestures.BrowFrown(strength = 0.3, duration = 2.50), async = true)
+                furhat.gesture(Gestures.ExpressDisgust(strength = 0.4, duration = 2.50), async = true)
+                furhat.gesture(Gestures.BrowFrown(strength = 0.4, duration = 2.50), async = true)
             }else{
                 furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
             }
@@ -288,9 +288,9 @@ class Suspect(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             if (firstName == "Francis"){
-                furhat.gesture(Gestures.BigSmile(strength = 0.3, duration = 8.0), async = true)
-                furhat.gesture(Gestures.BrowFrown( duration = 8.0), async = true)
-                furhat.gesture(nonHappyEyes, async = true)
+                furhat.gesture(quickRightGlance)
+                furhat.say("I already told you")
+                furhat.gesture(quickLeftGlance)
             }
             furhat.say(beforeAndAfter)
             beforeAfterTracker += 1 // This probably only updates the value locally, would a setter-method help?
@@ -304,7 +304,9 @@ class Suspect(
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             if (firstName == "Francis"){
-                furhat.gesture(quickRightGlance)
+                furhat.gesture(Gestures.BigSmile(strength = 0.5, duration = 8.0), async = true)
+                furhat.gesture(Gestures.BrowFrown( duration = 8.0), async = true)
+                furhat.gesture(nonHappyEyes, async = true)
             }
             furhat.say(responsible)
             responsibleTracker += 1 // This probably only updates the value locally, would a setter-method help?

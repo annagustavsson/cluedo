@@ -19,7 +19,7 @@ var autopsyInformation = false
 val Start = state(Interaction){
 
     onEntry {
-        furhat.ask("Thank god you're here detective! What is your name?")
+       furhat.ask("Thank god you're here detective! What is your name?")
     }
 
     onResponse{
