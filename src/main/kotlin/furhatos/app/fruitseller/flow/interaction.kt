@@ -19,18 +19,23 @@ var autopsyInformation = false
 val Start = state(Interaction){
 
     onEntry {
-       furhat.ask("Thank god you're here detective! What is your name?")
+        furhat.gesture(Gestures.BigSmile, async = true)
+        furhat.say("Thank god you're here detective!")
+        delay(500)
+        furhat.ask("What is your name?")
     }
 
     onResponse{
-        val username = it.text
+       // val username = it.text
         // The name of the person playing
         // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
         furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
-        furhat.say("Detective  $username! There has been a murder!")
+        //furhat.say("Detective  $username! There has been a murder!")
+        furhat.say("Good to meet you detective!")
         furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
-        furhat.say("And we need your help to solve it. " +
-                "The victim is the city millionaire, Albert Adams. He was found dead in his library. " +
+        furhat.say("There has been a murder. And we need your help to solve it. " +
+                "I'm officer Carter, and I'm here to assist you.")
+        furhat.say("The victim of this murder mystery is the city millionaire, Albert Adams. He was found dead in his library. " +
                 "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
                 "They are all here ready to be questioned by you.")
         furhat.say("Keep in mind that you can guess on the murderer only once.")
