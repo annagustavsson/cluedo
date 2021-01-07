@@ -402,6 +402,6 @@ class QuestionResponsible: Intent() {
 
 class QuestionSuspicious: Intent() {
     override fun getExamples(lang: Language): List<String>{
-        return listOf("Did you notice anything +suspicious that night?",  "Anyone who looked or acted particularly +suspicious?", "Anything +weird?", "Anything +odd?")
+        return listOf("Did you notice anything +suspicious that night?",  "Did you notice anyone +suspicious that night?", "Did you see anything +suspicious that night?")
     }
 }
