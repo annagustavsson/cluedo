@@ -28,16 +28,16 @@ val User.suspect1 : Suspect
                 "party like this.",
         "Yes I can answer that for you, I was with Harold in the kitchen. ",
         "I was accompanying Harold who was all alone in the kitchen, but then I saw that " +
-                "there was a bottle of [CLEANING PRODUCT]  laying in the corner of the room. I thought " +
-                "it was very odd, and embarrassing! What kind of hostess leaves a bottle of some " +
-                "[CLEANING PRODUCT]  laying around like that? So I went to put it away, and that’s when " +
+                "there was a bottle of some cleaning product laying in the corner of the room. I thought " +
+                "it was very odd, and embarrassing! What kind of hostess leaves a bottle of " +
+                "cleaning product laying around like that? So I went to put it away, and that’s when " +
                 "I found Albert",
         "Oh, dear. I don’t know. Albert didn't have any enemies. As far as I know, no one knew " +
                 "about his money problems. Then again, he. isn’t very good at keeping quiet. I mean, " +
                 "I’ve had to shut him up countless times when he’s been close to telling people about " +
                 "Harold’s forged degree. Harold has been very upset with him at times… Perhaps, Harold " +
                 "had something to do with it. ",
-        "Yes, this is the funny thing, I don’t remember using any [CLEANING PRODUCT] to clean " +
+        "Yes, this is the funny thing, I don’t remember using any cleaning product to clean " +
                 "that day. ",
         0,
         0,
@@ -98,7 +98,7 @@ val User.suspect3 : Suspect
                     "lovely talk about golf…. I just can’t believe he’s gone.",
             "I was in the kitchen like everyone else. If I remember " +
                     "right I saw the Professor making a drink. ",
-            "I already told you that I was in the kitchen during the " +
+            "I was in the kitchen during the " +
                     "murder. That didn't change, I stayed in the kitchen and enjoyed my wine.",
             "Since Albert got poisoned it must be Professor Harold Hoffman. Yeah it has to be. Harold. He’s the only one that " +
                     "knows chemistry and can create such dangerous chemical substances. So yes I would say Harold",
