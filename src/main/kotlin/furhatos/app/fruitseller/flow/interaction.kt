@@ -26,19 +26,14 @@ val Start = state(Interaction){
     }
 
     onResponse{
-       // val username = it.text
-        // The name of the person playing
-        // TODO: Save username variable at a better place. In GamePlay-class? In users.kt?
-        furhat.gesture(Gestures.BigSmile, async = true) // async = true means that the gesture does not block the following speech
-        //furhat.say("Detective  $username! There has been a murder!")
+        furhat.gesture(Gestures.BigSmile, async = true)
         furhat.say("Good to meet you detective!")
         furhat.gesture(Gestures.ExpressFear(strength = 0.2), async = true)
         furhat.say("There has been a murder. And we need your help to solve it. " +
-                "I'm officer Carter, and I'm here to assist you.")
-        furhat.say("The victim of this murder mystery is the city millionaire, Albert Adams. He was found dead in his library. " +
-                "The suspects are his wife Carol, the chemistry professor Harold and his childhood friend Francis. " +
-                "They are all here ready to be questioned by you.")
-        furhat.say("Keep in mind that you can guess on the murderer only once.")
+                "I'm Officer Furhat, and I'm here to assist you. The victim of this murder mystery is the city millionaire, " +
+                "Albert Adams. He was found dead in his library. The suspects are his wife Carol, the chemistry professor " +
+                "Harold and his childhood friend Francis. They are all here ready to be questioned by you Keep in mind that " +
+                "you can guess on the murderer only once.")
         goto(ChooseToQuestion)
     }
 
@@ -46,11 +41,6 @@ val Start = state(Interaction){
         furhat.say("Sorry, I didn't hear you.")
         furhat.ask("What is your name, detective?")
     }
-
- /*   onResponse<RepeatQuestion> {
-        furhat.say("Of course.")
-        furhat.ask("I'm so glad you are here, detective. I wonder what your name is?")
-    }*/
 }
 
 val Options = state(Interaction) {
@@ -65,7 +55,6 @@ val Options = state(Interaction) {
         }
     }
 
-    // If the user requests to hear the options again.
     onResponse<RequestOptions> {
         furhat.say("You may speak to ${Name().optionsToText()}")
         furhat.ask("Who do you pick?")
@@ -76,21 +65,18 @@ val ChooseToQuestion = state(Options) {
     onEntry {
         if (users.current.order.names.list.size == 2 && !autopsyInformation) {
                 autopsyInformation = true
-                call(GamePlay().autopsyResults) // note: 'call' instead of 'goto'
+                call(GamePlay().autopsyResults)
         }
 
         when {
             users.current.order.names.list.isEmpty() -> {
                 furhat.ask("Who do you want to question first?")
             }
-
-            //users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 || users.current.order.names.list.size == 3 -> {
             users.current.order.names.list.size == 1 || users.current.order.names.list.size == 2 -> {
             call(GamePlay().chooseToGuess())
                 furhat.ask("Who do you want to question next?")
 
             }
-
             users.current.order.names.list.size == 3 -> {
                 furhat.say("You have now interviewed all the suspects")
                 //goto(GamePlay().guessMurder())
@@ -142,7 +128,6 @@ fun getSuspect(names: NameList) : State = state(Options) {
             }
         }
 
-        // TODO: The creation of the suspects objects should probably be created somewhere else. And only called on here:
         when (names.text) {
             "Carol" -> {
                 goto(users.current.suspect1.initialConversation)
@@ -154,8 +139,6 @@ fun getSuspect(names: NameList) : State = state(Options) {
                 goto(users.current.suspect3.initialConversation)
             }
         }
-        // TODO: Fix voices to the different suspects (Currently they all have language: English_GB,
-        //  also Francis is a girl and Harold has the same voice as FurHat.)
     }
 
     onReentry {

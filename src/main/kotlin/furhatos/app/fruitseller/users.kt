@@ -14,7 +14,6 @@ val User.order : NameData
 
 val User.suspect1 : Suspect
     get() = Suspect(
-
         "Carol",
         "Clark",
         "Construction worker",

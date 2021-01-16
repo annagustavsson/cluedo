@@ -51,19 +51,16 @@ class GetName(
 
 class Name : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        //return listOf("Albert", "Albert Adams","Harold", "Harold Hoffman", "The professor", "Francis", "Francis Franklin", "the cleaner", "Carol", "Carol Clark", "the wife")
         return listOf("Harold", "Francis", "Carol")
     }
 }
 
-// Visit suspect
 class VisitName(var names : NameList? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("@names", "Let me speak to @names", "I would like to speak to @names", "I wanna see @names", "I choose @names")
     }
 }
 
-// This class contains methods for the actual gameplay.
 class GamePlay : Intent() {
     val autopsyResults = state {
         println("Anna05")
@@ -75,7 +72,6 @@ class GamePlay : Intent() {
                         " He must've died within a matter of minutes." +
                         " All I can say is, whoever did this must have ${furhat.voice.emphasis("really")} wanted him dead.")
                 furhat.listen()
-                //terminate() //calling this state will resume the execution in ChooseToQuestion (Takingorder)
                  }
 
         onResponse<RepeatQuestion> {
@@ -142,9 +138,6 @@ class GamePlay : Intent() {
     }
 }
 
-
-
-// This class contains contains different interview questions for each suspect
 class Suspect(
         firstName: String,
         lastName: String,
@@ -164,9 +157,7 @@ class Suspect(
         var beforeAfterTracker: Int,
         var responsibleTracker: Int,
         var active_question: String
-) {
-
-   
+    ) {
 
     val initialConversation = state(Options) {
         onEntry {
@@ -174,19 +165,8 @@ class Suspect(
             furhat.setVoice(Language.ENGLISH_GB, voice)
             furhat.say("Hello this is  ${"$firstName $lastName"}, i'm a $job.")
             delay(1000)
-            // if we are to use onResponse RepeatQuestion, we should have furhat.listen instead of goto
-            //furhat.listen()
             goto(interviewConversation)
         }
-        // unnecessary here? Or do we want to be able to repeat their job?
-        /*onNoResponse {
-            goto(interviewConversation)
-        }
-        onResponse<RepeatQuestion> {
-            furhat.say("Of course.")
-            furhat.say("I am ${"$firstName $lastName"}, and I work as a $job.")
-            goto(interviewConversation)
-        }*/
     }
 
     val interviewConversation = state(Options) {
@@ -238,13 +218,12 @@ class Suspect(
 
 
         onResponse<QuestionRelation> {
-            // to know which answer to repeat
             active_question = "relation"
             if (relationTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
             }
             furhat.say("I was Albert's $relationshipAlbert for a long time.")
-            relationTracker += 1 // This probably only updates the value locally, would a setter-method help?
+            relationTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
@@ -258,9 +237,7 @@ class Suspect(
                 furhat.gesture(Gestures.GazeAway(strength = 0.80, duration=6.00), async = true)
             }
             furhat.say(evening)
-
-
-            eveningTracker += 1 // This probably only updates the value locally, would a setter-method help?
+            eveningTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
@@ -278,7 +255,7 @@ class Suspect(
                 furhat.gesture(Gestures.Nod(strength = 0.2, duration = 0.50), async = true)
             }
             furhat.say(timeOfMurder)
-            timeOfMurderTracker += 1 // This probably only updates the value locally, would a setter-method help?
+            timeOfMurderTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
@@ -293,12 +270,11 @@ class Suspect(
                 furhat.gesture(quickLeftGlance)
             }
             furhat.say(beforeAndAfter)
-            beforeAfterTracker += 1 // This probably only updates the value locally, would a setter-method help?
+            beforeAfterTracker += 1
             furhat.ask("Anything else you wonder?")
         }
 
         onResponse<QuestionResponsible> {
-
             active_question = "responsible"
             if (responsibleTracker > 0) {
                 furhat.say("You already asked that question. But fine, I can answer again")
@@ -309,7 +285,7 @@ class Suspect(
                 furhat.gesture(nonHappyEyes, async = true)
             }
             furhat.say(responsible)
-            responsibleTracker += 1 // This probably only updates the value locally, would a setter-method help?
+            responsibleTracker += 1
             random(
                     { furhat.ask("Do you have even more questions?")},
                     { furhat.ask("Anything else you wonder?")}
@@ -340,7 +316,6 @@ class Suspect(
             furhat.ask("What question did you have for me?")
         }
 
-        // active_question to remember what answer to repeat
         onResponse<RepeatQuestion> {
             furhat.say("Of course.")
             if (active_question == "relation") {
